@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<style type="text/css">
+.ui-lightbox-caption {
+	background-color: #FFFFFF;
+}
+</style>
+	<div style="width: 100%; height: auto;" class="activitytxt">#{activityTitle}</div>
+	<div style="width: 100%; height: 25px;">&#160;</div>
+
+	<h:panelGroup rendered="#{!empty activityList}">
+
+		<ui:repeat var="activity" value="#{activityList}" status="st">
+			<!-- notification start !-->
+			<div>
+				<p:lightBox iframe="true">
+					<h:outputLink value="showActivityImage.xhtml" styleClass="activityLink"> 
+						<f:param name="componentId" value="#{activity.componentId}"></f:param>
+						<!-- row !-->
+						<div>
+							<div class="notirowlfimg">
+								<h:graphicImage
+									value="/profile?id=#{activity.initiator.userProfile.imageFileName}"
+									width="35" height="35"
+									rendered="#{!empty activity.initiator.userProfile.imageFileName}" />
+								<h:graphicImage value="/static/image/anon.jpg" width="35"
+									height="35"
+									rendered="#{empty activity.initiator.userProfile.imageFileName}" />
+							</div>
+							<div class="notirowlftxt">
+								#{st}. <b>#{activity.initiator.userProfile.firstName}
+									#{activity.initiator.userProfile.lastName}</b>
+								<h:outputText
+									value="#{historyBean.getActivityType(activity.activityType.activityTypeId)}" />
+								<h:panelGroup rendered="#{historyBean.component ne null}">	
+					#{activity.impactedUser.userProfile.firstName}
+					#{activity.impactedUser.userProfile.lastName}&#8217;s #{historyBean.component} 
+					</h:panelGroup>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<!-- row !-->
+					</h:outputLink>
+				</p:lightBox>
+				<div class="notiline">&#160;</div>
+			</div>
+			<!-- notification end !-->
+			<div style="width: 100%; height: 10px;">&#160;</div>
+		</ui:repeat>
+	</h:panelGroup>
+	<h:panelGroup rendered="#{empty activityList}">
+		<h:outputText value="No activities found in this list!" />
+	</h:panelGroup>
+
+</ui:composition>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns:b="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<b:bean
+		class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+		<b:property name="scopes">
+			<b:map>
+				<b:entry key="view">
+					<b:bean class="com.coombu.photobook.web.spring.customscope.ViewScope" />
+				</b:entry>
+			</b:map>
+		</b:property>
+	</b:bean>
+<!--  Interceptors -->
+ 	<b:bean name="loggingInterceptorBean" class="com.coombu.photobook.interceptor.MethodCallLoggingInterceptor" />
+
+	<!-- Logging AutoProxy -->
+	<b:bean name="loggingAutoProxy"
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<b:property name="beanNames">
+			<b:list>
+				<b:value>signupBean</b:value>
+<!-- 				<b:value>dashBean</b:value>
+				<b:value>imageService</b:value>
+				<b:value>user</b:value> 
+ -->			</b:list>
+		</b:property>
+		<b:property name="interceptorNames">
+			<b:list>
+				<b:value>loggingInterceptorBean</b:value>
+			</b:list>
+		</b:property>
+	</b:bean>
+	<!-- Resource bundle for spring security -->
+	<b:bean id="messageSource"	class="org.springframework.context.support.ResourceBundleMessageSource">
+	<b:property name="basenames">
+	    <b:list>
+			<b:value>springSecurity</b:value>
+	    </b:list>
+	</b:property>
+  </b:bean>
+</b:beans>

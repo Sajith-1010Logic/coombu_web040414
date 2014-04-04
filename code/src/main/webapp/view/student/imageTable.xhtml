@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+						<ui:repeat value="#{dashBean.imageList}" var="img" varStatus="st">
+						<p:panel rendered="#{st.index % 2 == rowmodulo}">	
+							<table bgcolor="white" cellpadding="4" cellspacing="5" border="0">
+								<tr>
+									<td>Uploaded <h:outputText value="#{img.uploadDateTime}">
+										<f:convertDateTime pattern="MMM dd, yyyy HH:mm aa" />
+									</h:outputText></td>
+								</tr>
+								<tr>
+									<td>
+										<p:lightBox styleClass="imagebox"> 
+										<h:outputLink value="#{request.contextPath}/image?id=#{img.fileName}" title="#{img.eventDescription}" style="height:80px">
+											<h:graphicImage value="/image?id=#{img.fileName}" height="236" width="320" />
+										</h:outputLink>
+										</p:lightBox>
+									</td>
+								</tr>
+								<tr>
+									<td>#{img.eventDescription}</td>
+								</tr>
+								<tr>
+									<td><img src="${request.contextPath}/static/image/like.png" />123
+										&#160;&#160;&#160;&#160;
+										<img src="${request.contextPath}/static/image/ucomment.png" />114
+										&#160;&#160;&#160;&#160;
+										<img src="${request.contextPath}/static/image/tag.png" />13</td>
+								</tr>
+							</table>
+							</p:panel>
+						</ui:repeat>
+</ui:composition>

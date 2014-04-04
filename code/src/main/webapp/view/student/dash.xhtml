@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layouts/standard.xhtml">
+	<ui:define name="toolbar">
+		<ui:include src="header.xhtml"/>
+	</ui:define>
+	<ui:define name="submenu">
+		<ui:include src="photosubmenu.xhtml"/>
+	</ui:define>
+	<ui:define name="body">
+		<ui:include src="threecolumnbody.xhtml"/>
+	</ui:define>
+	<ui:define name="leftcolumn">
+		<ui:include src="leftcolumn.xhtml"/>
+	</ui:define>
+	<ui:define name="rightcolumn">
+		<ui:include src="rightcolumn.xhtml"/>
+	</ui:define>
+</ui:composition>

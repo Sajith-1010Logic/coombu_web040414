@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+	<h:form id="toolbarForm" style="margin:0;padding:0;display:inline">
+		<!-- start tag and tool bar -->
+		<div id="wrapper"
+			style="background-color: #2b2b2b; background-color: #2b2b2b; position: fixed; top: 43px; z-index: 99">
+			<div id="wrap">
+				<div>
+					<!-- tag line !-->
+					<div class="tag">
+						<div>
+							<div
+								style="font-size: 22px; padding-top: 20px; text-align: left;">#{dashBean.currentEvent.eventName}</div>
+						</div>
+					</div>
+					<!-- tag line !-->
+					<!-- toolbar !-->
+					<div class="toolbar">
+						<div>
+							<div style="height: 40px;">
+								<div style="width: 100%;">
+									<div align="left" style="height: 32px;">
+										<div style="padding: 7px 0px 0px 10px;">
+											<ul id="menu">
+												<li><p:commandLink
+														action="#{dashBean.loadData(dashBean.currentEventId,'LATEST')}"
+														ajax="false" value="Photos"
+														class="#{ param['topmenu'] eq 'PHOTOS' ? 'toplink_select' : 'toplink'}">
+														<f:param name="topmenu" value="PHOTOS" />
+														<f:param name="botmenu" value="LATEST" />
+													</p:commandLink></li>
+												<li><p:commandLink
+														action="#{activityBean.loadData(dashBean.currentEventId,'MY_UPLOADED')}"
+														value="My Activity"
+														class="#{ param['topmenu'] eq 'ACTIVITY' ? 'toplink_select' : 'toplink'}"
+														ajax="false">
+														<f:param name="topmenu" value="ACTIVITY" />
+														<f:param name="botmenu" value="UPLOADED_PHOTOS" />
+													</p:commandLink></li>
+												<li><p:commandLink action="#{membersBean.allMembers()}"
+														value="Members" ajax="false"
+														styleClass="#{ param['topmenu'] eq 'MEMBERS' ? 'toplink_select' : 'toplink'}">
+														<f:param name="topmenu" value="MEMBERS" />
+														<f:param name="botmenu" value="ALL_MEMBERS" />
+													</p:commandLink></li>
+												<li><p:commandLink action="#{photoBookBean.loadData()}"
+														ajax="false" value="Photo Book"
+														styleClass="#{ param['topmenu'] eq 'PHOTOBOOK' ? 'toplink_select' : 'toplink'}"
+														rendered="#{dashBean.isStudentRep() || sec:areAnyGranted('ROLE_ADMIN')}">
+														<f:param name="topmenu" value="PHOTOBOOK" />
+														<f:param name="botmenu" value="CREATE" />
+													</p:commandLink></li>
+												<li><h:link outcome="admindash.xhtml"
+														value="Adminstration"
+														rendered="#{dashBean.isStudentRep()}"
+														styleClass="#{ param['topmenu'] eq 'ADMINISTRATION' ? 'toplink_select' : 'toplink'}">
+														<f:param name="topmenu" value="ADMINISTRATION" />
+														<f:param name="botmenu" value="ADMIN_DASH" />
+													</h:link></li>
+												<li><h:link outcome="reports.xhtml" value="Reports"
+														rendered="#{dashBean.isStudentRep() || sec:areAnyGranted('ROLE_ADMIN')}"
+														styleClass="#{ param['topmenu'] eq 'REPORTS' ? 'toplink_select' : 'toplink'}">
+														<f:param name="topmenu" value="REPORTS" />
+														<f:param name="botmenu" value="LOGIN_AND_LOGOUT" />
+													</h:link></li>
+											</ul>
+										</div>
+									</div>
+									<div style="padding-right: 12px;">
+										<div
+											style="width: 100%; height: 1px; background-color: #ee2c1f;" />
+									</div>
+								</div>
+								<div>
+									<ui:insert name="submenu" />
+
+								</div>
+							</div>
+						</div>
+						<!-- toolbar !-->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end tag and tool bar !-->
+	</h:form>
+</ui:composition>

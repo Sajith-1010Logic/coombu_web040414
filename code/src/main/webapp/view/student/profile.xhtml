@@ -1,0 +1,315 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layouts/standard.xhtml">
+	<ui:define name="toolbar">
+		<ui:include src="header.xhtml" />
+	</ui:define>
+	<ui:define name="submenu">
+		<ui:include src="photosubmenu.xhtml" />
+	</ui:define>
+	<ui:define name="body">
+		<ui:include src="threecolumnbody.xhtml" />
+	</ui:define>
+	<ui:define name="leftcolumn">
+		<ui:include src="leftcolumn.xhtml" />
+	</ui:define>
+	
+	<ui:define name="rightcolumn">
+		<div class="rightnotification">
+			<link href="${request.contextPath}/static/css/bootstrap.css"
+				rel="stylesheet" type="text/css"></link>
+			<link href="${request.contextPath}/static/css/layout.css"
+				rel="stylesheet" type="text/css"></link>
+			<link href="${request.contextPath}/static/css/datepicker.css"
+				rel="stylesheet" type="text/css"></link>
+
+<style type="text/css">
+	.profile_updateTable tr td{padding: 6px 2px;}
+	.profile_updateTable tr td input  , 	.profile_updateTable tr td select , 	.profile_updateTable tr td textarea {height: auto !important;
+background: #F8F8F8 !important;
+border: 1px solid #F1F1F1 !important;
+border-bottom: 1px solid #BEBEBE !important;
+width: 80% !important;}
+.profile_updateTable tr td input:focus , 	.profile_updateTable tr td select:focus , 	.profile_updateTable tr td textarea:focus{border-bottom: 1px solid #505050 !important;}
+.profile_updateTable tr td select { padding: 8px 6px !important;
+border-radius: 0px !important;}
+.ui-accordion .ui-accordion-content{padding:0em;}
+.ui-accordion .ui-accordion-header a {
+display: block;
+font-size: 1em;
+padding: .5em .5em .5em 2.2em;
+color: #FFF;
+text-shadow: none !important;
+width: auto !important;
+}
+</style>
+			<div style="width: 100%; height: 15px;"></div>
+			<div class="myactivecont">
+				<div style="width: 100%; height: 10px;"></div>
+				<!-- report !-->
+				<div align="left">
+					<!-- date report !-->
+					<div class="reportpage">
+						<f:event type="preRenderView" listener="#{profileBean.loadData()}" />
+						<h:form prependId="false" id="profileForm">
+							<p:panel id="panel">
+								<p:messages id="message" />
+								<div id="clearTop" style="padding-top: 20px;"></div>
+								<table border="0" cellpadding="5" cellspacing="5"
+									style="color: #7a7a7a; font-size: 13px;" class="profile_updateTable">
+									<tr>
+										<th colspan="2" align="center" class="grouppageheader"
+											style="color: #5C5C5C;">User Profile</th>
+									</tr>
+									<tr>
+										<td style="padding-bottom: 20px;"></td>
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel for="firstname"
+												value="First Name:" /></td>
+										<td class="profilePage"><p:inputText id="firstname"
+												value="#{profileBean.profile.firstName}" label="Firstname"
+												size="40" required="true"
+												requiredMessage="First Name is required"
+												styleClass="logintxtbox" /></td>
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel for="lastName"
+												value="Last Name:" /></td>
+										<td class="profilePage"><p:inputText id="lastName"
+												value="#{profileBean.profile.lastName}" required="true"
+												label="Last Name" size="40"
+												requiredMessage="Last Name is required"
+												styleClass="logintxtbox" /></td>
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel for="nickName"
+												value="Nick Name:" /></td>
+										<td class="profilePage"><p:inputText id="nickName"
+												value="#{profileBean.profile.nickName}" label="Last Name"
+												size="40" styleClass="logintxtbox" /></td>
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel for="email"
+												value="Email:" /></td>
+										<td class="profilePage"><p:inputText id="email"
+												value="#{profileBean.profile.emailAddress}" required="true"
+												label="Last Name" maxlength="150" size="40"
+												requiredMessage="Email is required" styleClass="logintxtbox" /></td>
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel for="secondEmail"
+												value="Secondary Email: " /></td>
+										<td class="profilePage"><p:inputText id="secondEmail"
+												value="#{profileBean.profile.secondaryEmailAddress}"
+												required="false" label="Secondary Email" maxlength="150"
+												size="40" styleClass="logintxtbox" /></td>
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel for="address"
+												value="Address:" /></td>
+										<td class="profilePage"><p:inputText id="address"
+												value="#{profileBean.address.address1}" maxlength="55"
+												size="30" required="true"
+												requiredMessage="Address is required."
+												styleClass="logintxtbox" /></td>
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel for="address2"
+												value="Address 2:" /></td>
+										<td class="profilePage"><p:inputText id="address2"
+												value="#{profileBean.address.address2}" maxlength="35"
+												size="30" styleClass="logintxtbox" /></td>
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel for="city"
+												value="City :" /></td>
+										<td class="profilePage"><p:inputText id="city"
+												value="#{profileBean.address.city}" maxlength="35" size="30"
+												required="true" requiredMessage="City is required."
+												styleClass="logintxtbox" /></td>
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel for="state"
+												value="State :" /></td>
+										<td class="profilePage"><p:inputText id="state"
+												value="#{profileBean.address.state}" maxlength="35"
+												size="30" required="true"
+												requiredMessage="State is required."
+												styleClass="logintxtbox" /></td>
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel for="country"
+												value="Country :" /></td>
+										<td class="profilePage"><h:selectOneMenu id="country"
+												value="#{profileBean.address.countryId}" required="true"
+												requiredMessage="Country is required."
+												styleClass="logintxtbox">
+												<f:selectItems value="#{referenceData.countryList}" var="c"
+													itemLabel="#{c.countryName}" itemValue="#{c.countryId}" />
+											</h:selectOneMenu></td>
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel for="phone"
+												value="Phone :" /></td>
+										<td class="profilePage"><p:inputText id="phone"
+												value="#{profileBean.phone.phoneNumber}" maxlength="35"
+												size="30" required="true"
+												requiredMessage="Phone is required."
+												styleClass="logintxtbox" /></td>
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel for="sex"
+												value="Gender :" /></td>
+										<td class="profilePage"><h:selectOneMenu id="sex"
+												required="true" value="#{profileBean.profile.gender}"
+												requiredMessage="gender is required."
+												styleClass="logintxtbox">
+												<f:selectItem itemValue="" itemLabel="--Select--" />
+												<f:selectItem itemValue="Male" itemLabel="Male" />
+												<f:selectItem itemValue="Female" itemLabel="Female" />
+											</h:selectOneMenu></td>
+									</tr>
+									<tr>
+										<td align="right"><p:outputLabel value="DOB :" /></td>
+										<td class="profilePage"><p:inputText id="datepicker1"
+												size="25" value="#{profileBean.profile.dob}">
+												<f:convertDateTime pattern="dd-MM-yyyy" />
+											</p:inputText></td>
+									</tr>
+
+									<tr>
+										<td></td>
+									</tr>
+
+									<tr>
+										<td align="right"><p:outputLabel value="About Me:" /></td>
+										<td class="profilePage" style="padding-top: 5px;"><p:inputTextarea
+												maxlength="250" autoResize="true" cols="24"
+												value="#{profileBean.profile.aboutMe}" counter="display"
+												counterTemplate="{0} characters remaining"
+												validatorMessage="please enter within 250 characters" /></td>
+
+									</tr>
+
+									<tr>
+										<td></td>
+										<td align="left" style="padding-left: 15px;"><h:outputText
+												id="display" /></td>
+									</tr>
+
+
+
+									<tr>
+										<td align="right"><p:outputLabel value="Profile Image:" /></td>
+										<p:panel layout="block">
+											<td class="profilePage"><h:graphicImage height="200px"
+													value="/profile?id=#{profileBean.profile.imageFileName}"
+													rendered="${not empty profileBean.profile.imageFileName}" />
+												<h:graphicImage value="/static/image/anon.jpg" height="150"
+													rendered="#{empty profileBean.profile.imageFileName}" /></td>
+										</p:panel>
+									</tr>
+
+
+									<tr>
+										<td></td>
+										<td style="padding-left: 10px;"><p:commandLink
+												rendered="${not empty profileBean.profile.imageFileName}"
+												value="Edit My profile Picture" onclick="dlg.show()" /></td>
+									</tr>
+									<p:dialog id="cropDlg" appendToBody="false" widgetVar="dlg"
+										showEffect="fade" hideEffect="explode" resizable="false"
+										modal="true" header="Edit Picture"
+										style="background-color:#FFFFFF">
+										<h:form id="cropForm" enctype="multipart/form-data">
+											<p:panel style="background-color: #FFFFFF" id="cropPanel">
+												<p:messages />
+												<div>
+													<p:imageCropper value="#{profileBean.image}"
+														image="/profile?id=#{profileBean.profile.imageFileName}" />
+
+													<h:commandButton value="crop" immediate="true"
+														styleClass="profilebut"
+														action="#{profileBean.handleCropFileUpload}" />
+												</div>
+											</p:panel>
+										</h:form>
+									</p:dialog>
+
+									<tr>
+										<td align="right"><p:outputLabel value="Tag Line:" /></td>
+										<td class="profilePage"><p:inputText
+												value="#{profileBean.profile.tagLine}" size="40" /></td>
+									</tr>
+
+									<tr>
+										<td></td>
+										<td><p:accordionPanel multiple="true" activeIndex="null">
+												<p:tab title="Upload New Profile Image"
+													titleStyle="background-color: #333333;color: #f1f1f1">
+													<table width="200" border="0" cellspacing="0"
+														cellpadding="0">
+
+														<tr>
+															<td class="fields" nowrap="nowrap"><p:fileUpload
+																	id="uploadFile"
+																	fileUploadListener="#{profileBean.handleFileUpload}"
+																	sizeLimit="100000" fileLimit="1"
+																	allowTypes="/(\.|\/)(jpg|jpeg|gif|png)$/"
+																	multiple="false" mode="advanced" update="@form"
+																	styleClass="download" /></td>
+														</tr>
+													</table>
+												</p:tab>
+											</p:accordionPanel></td>
+									</tr>
+
+
+									<tr>
+
+										<td colspan="2" align="center"
+											style="padding-bottom: 15px; padding-top: 15px;"><p:commandButton
+												widgetVar="updateButton" value="Update"
+												style="margin-top:10px;" update="panel"
+												action="#{profileBean.save()}" ajax="false"
+												styleClass="profilebut" /></td>
+									</tr>
+								</table>
+
+
+
+							</p:panel>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="${request.contextPath}/static/js/bootstrap-datepicker.js"></script>
+		<script>
+		
+		
+		$('#datepicker1').datepicker({
+			format: 'dd-mm-yyyy'
+			
+		});
+
+		
+		
+
+		
+		
+	</script>
+	</ui:define>
+
+
+</ui:composition>
+
+
+
+
+

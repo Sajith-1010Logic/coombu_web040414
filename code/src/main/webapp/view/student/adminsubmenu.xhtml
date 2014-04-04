@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<div align="left" style="padding: 12px 0px 0px 20px; height: 20px">
+		<!-- <h:link outcome="admindash.xhtml" value="Uploaded Photos"	styleClass="#{ param['botmenu'] eq 'ADMIN_DASH' ? 'botlink_select' : 'botlink'}">
+			<f:param name="topmenu" value="ADMINISTRATION" />
+			<f:param name="botmenu" value="ADMIN_DASH" />
+		</h:link> -->
+		<p:commandLink action="#{adminBean.loadImageData()}" ajax="false"
+			value="Dashboard"
+			styleClass="#{ param['botmenu'] eq 'ADMIN_DASH' ? 'botlink_select' : 'botlink'}">
+			<f:param name="topmenu" value="ADMINISTRATION" />
+			<f:param name="botmenu" value="ADMIN_DASH" />
+		</p:commandLink>
+		&#160;&#160;&#160;&#160;&#160;
+		<!-- 	<h:link outcome="admindash.xhtml" value="Users"
+			class="#{ param['botmenu'] eq 'USERS' ? 'botlink_select' : 'botlink'}">
+			<f:param name="topmenu" value="ADMINISTRATION" />
+			<f:param name="botmenu" value="USERS" />
+		</h:link> -->
+
+
+		<p:commandLink action="#{userManagementBean.loadData()}" ajax="false"
+			value="Users"
+			styleClass="#{ param['botmenu'] eq 'USERS' ? 'botlink_select' : 'botlink'}">
+			<f:param name="topmenu" value="ADMINISTRATION" />
+			<f:param name="botmenu" value="USERS" />
+		</p:commandLink>
+		&#160;&#160;&#160;&#160;&#160;
+		<h:link outcome="schedulemanagement.xhtml" value="Scheduling"
+			ajax="false"
+			styleClass="#{ param['botmenu'] eq 'SCHEDULING' ? 'botlink_select' : 'botlink'} ">
+			<f:param name="topmenu" value="ADMINISTRATION" />
+			<f:param name="botmenu" value="SCHEDULING" />
+		</h:link>
+	</div>
+</ui:composition>

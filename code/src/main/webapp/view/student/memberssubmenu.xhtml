@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<div align="left" style="padding: 12px 0px 0px 20px; height: 20px">
+		<p:commandLink action="#{membersBean.allMembers()}"
+			value="All Members"
+			styleClass="#{ param['botmenu'] eq 'ALL_MEMBERS' ? 'botlink_select' : 'botlink'}"
+			ajax="false">
+			<f:param name="topmenu" value="MEMBERS" />
+			<f:param name="botmenu" value="ALL_MEMBERS" />
+		</p:commandLink>
+		&#160;&#160;&#160;&#160;&#160;
+		<p:commandLink action="#{membersBean.searchMembers()}" value="Search"
+			class="#{ param['botmenu'] eq 'SEARCH' ? 'botlink_select' : 'botlink'}"
+			ajax="false">
+			<f:param name="topmenu" value="MEMBERS" />
+			<f:param name="botmenu" value="SEARCH" />
+		</p:commandLink>
+	</div>
+</ui:composition>

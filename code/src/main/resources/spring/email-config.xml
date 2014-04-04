@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
+	                    http://www.springframework.org/schema/context 
+	                    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	                    http://www.springframework.org/schema/jee 
+	                    http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+ 
+ 	<!-- <jee:jndi-lookup id="workManager" jndi-name="wm/MailServiceWorkManager" /> 
+
+    <bean id="workManagerTaskExecutor"  class="org.springframework.scheduling.commonj.WorkManagerTaskExecutor">
+      <property name="workManager" ref="workManager" />
+    </bean>-->
+
+<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<property name="host" value="${mail.smtp.host}" />
+	<property name="port" value="${mail.smtp.port}" />
+	<property name="username" value="${mail.smtp.username}" />
+	<property name="password" value="${mail.smtp.password}" />
+ 	<property name="protocol" value="${mail.smtp.protocol}"/>
+	<property name="javaMailProperties">
+		<props>
+           	<prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+           	<prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
+       	</props>
+	</property>
+</bean>
+
+
+	<bean id="registrationMessage" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from" value="coombu@coombu.com" />
+		<property name="subject" value="Coombu - Registration Confirmation" />
+		<property name="text">
+		<value>
+		<![CDATA[
+				<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+				<html xmlns="http://www.w3.org/1999/xhtml">
+				<head>
+					<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+					<title> Registration Confirmation </title>
+				</head>				
+				<body>
+				Hey %s,
+<p>&#160;</p>
+Welcome to %s. Now you can collaborate with other members of your group by uploading as many pertinent photos as you want. You can like and comment on photos uploaded by folks in your group.
+<p>&#160;</p>
+If you find any photo offensive or inappropriate, you can flag it to take off the group dashboard. Group admin can review then review the image.
+<p>&#160;</p>
+Please click on this <a href="%s">link</a> for Terms and Conditions. Just to reiterate, the digital laws in India strictly prohibit any nude or vulgar images from being uploaded or shared. By using Coombu, you explicitly agree to abide by the laws.
+<p>&#160;</p>
+Share your photos, create Unlimited Memories and have fun!
+<p>&#160;</p>
+Cheers,<br/>
+Coombu				
+				</body>
+				</html>			
+				]]>
+			</value>		
+		</property>
+	</bean>
+	
+	
+	<bean id="forgotPasswordMessage" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from" value="coombu@coombu.com" />
+		<property name="subject" value="Coombu - Password Reset" />
+		<property name="text">
+		<value>
+		<![CDATA[
+				<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+				<html xmlns="http://www.w3.org/1999/xhtml">
+				<head>
+					<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+					<title>Coombu.com Password Reset</title>
+				</head>				
+				<body>				
+Someone (presumably you) requested a password change through e-mail
+verification. If this was not you, ignore this message and nothing will happen.
+<p>&#160;</p>
+If you requested this verification, please visit the following URL to change yourpassword in the next %s hours: 
+<p>&#160;</p>
+<a href="%s">Reset Password</a>
+<p>&#160;</p>
+<p>&#160;</p>
+Username: %s 
+<p>&#160;</p> 
+
+<p>&#160;</p>
+Cheers,<br/>
+Coombu				
+<p>&#160;</p>
+<p>&#160;</p>
+Do not reply to this message
+				</body>
+				</html>			
+				]]>
+			</value>		
+		</property>
+	</bean>
+	
+</beans>

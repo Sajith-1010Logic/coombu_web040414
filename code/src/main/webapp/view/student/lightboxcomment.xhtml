@@ -1,0 +1,82 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:scrollPanel style="width:350px; height:450px" id="popupProfile">
+		<!-- profile !-->
+		<div style="padding: 10px; background-color: #FFFFFF">
+			<div style="float: left;">
+				<h:graphicImage
+					value="/profile?id=#{dashBean.currentImage.eventSecurityUser.securityUser.userProfile.imageFileName}"
+					width="66" height="69"
+					rendered="#{!empty dashBean.currentImage.eventSecurityUser.securityUser.userProfile.imageFileName}" />
+				<h:graphicImage value="/static/image/anon.jpg" width="66"
+					height="69"
+					rendered="#{empty dashBean.currentImage.eventSecurityUser.securityUser.userProfile.imageFileName}" />
+			</div>
+			<div style="padding: 5px;">
+				<div class="postheader">#{dashBean.currentImage.eventSecurityUser.securityUser.userProfile.firstName} 
+					#{dashBean.currentImage.eventSecurityUser.securityUser.userProfile.lastName}</div>
+				<div class="posttxt">
+					Uploaded
+					<h:outputText value="#{dashBean.currentImage.uploadDateTime}">
+						<f:converter converterId="org.ocpsoft.PrettyTimeConverter" />
+					</h:outputText>
+				</div>
+			</div>
+		</div>
+		<!-- profile !-->
+		<div style="width: 100%; height: 25px;">&#160;</div>
+		<!-- notification !-->
+		<ui:repeat var="comment" value="#{commentList.toArray()}" status="st">
+			<!-- notification start !-->
+			<div style="background-color: #FFFFFF">
+				<!-- row !-->
+				<div>
+					<div class="notirowlfimg">
+						<h:graphicImage
+							value="/profile?id=#{comment.eventSecurityUser.securityUser.userProfile.imageFileName}"
+							width="35" height="35"
+							rendered="#{!empty comment.eventSecurityUser.securityUser.userProfile.imageFileName}" />
+						<h:graphicImage value="/static/image/anon.jpg" width="35"
+							height="35"
+							rendered="#{comment.eventSecurityUser.securityUser.userProfile.imageFileName}" />
+					</div>
+					<div class="notirowlftxt">
+						<b>#{comment.eventSecurityUser.securityUser.userProfile.firstName} #{comment.eventSecurityUser.securityUser.userProfile.lastName}
+						</b> <br />
+						<h:outputLink id="#{st}comm" value="#"
+							style="text-decoration: none">
+				    #{comment.shortCommentText}<h:outputText value="..."
+								rendered="#{comment.commentText.length() >= 40}" />
+						</h:outputLink>
+						<p:tooltip for="#{st}comm" value="#{comment.commentText}"
+							showEffect="fade" hideEffect="fade" />
+						<br /> <span style="font-size: .9em; color: #cccccc"> <h:outputText
+								value="#{comment.createTimestamp}">
+								<f:converter converterId="org.ocpsoft.PrettyTimeConverter" />
+							</h:outputText></span>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<!-- row !-->
+				<div class="notiline">&#160;</div>
+			</div>
+			<!-- notification end !-->
+			<div style="width: 100%; height: 10px;">&#160;</div>
+		</ui:repeat>
+	</p:scrollPanel>
+	<div style="bottom: 0">
+		<p:messages id="commentMsg"/>
+		<h:inputTextarea class="cmttextarea"
+			style="margin: 2px 0px; width: 220px; height: 70px;border: 1px solid #dbdbdb;"
+			value="#{dashBean.commentText}" />
+		<br /> <br />
+		<div align="right" style="padding-right: 25px;">
+			<p:commandLink actionListener="#{dashBean.addNewComment()}"
+				class="cmtshare" value="Share!" update="commentMsg"/>
+		</div>
+	</div>
+</ui:composition>

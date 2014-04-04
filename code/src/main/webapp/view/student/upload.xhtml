@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layouts/standard.xhtml">
+
+	<ui:define name="body">
+		<ui:include src="threecolumnbody.xhtml" />
+	</ui:define>
+	<ui:define name="toolbar">
+		<ui:include src="header.xhtml" />
+	</ui:define>
+	<ui:define name="submenu">
+		<ui:include src="photosubmenu.xhtml" />
+	</ui:define>
+	<ui:define name="leftcolumn">
+		<ui:include src="leftcolumn.xhtml" />
+	</ui:define>
+	<ui:define name="rightcolumn">
+
+		<div class="rightnotification">
+
+			<div style="width: 100%; height: 15px;"></div>
+			<div class="myactivecont">
+				<div style="width: 100%; height: 10px;"></div>
+				<!-- report !-->
+				<div align="left">
+					<!-- date report !-->
+					<div class="reportpage">
+						<div class="grouppageheader" style="float: center; height: 50px;">
+							Upload Pictures</div>
+						<ui:fragment
+							rendered="#{groupBean.isUploadScheduleValid(dashBean.currentEventId)}">
+							<h:form id="uploadForm" prependId="false">
+								<p:ajaxStatus onstart="ajaxStatusForUpload.show();"
+									oncomplete="ajaxStatusForUpload.hide();">
+								</p:ajaxStatus>
+								<p:fileUpload
+									fileUploadListener="#{fileUploadController.handleFileUpload}"
+									mode="advanced" dragDropSupport="false" multiple="true"
+									update="messages, abc, cde"
+									sizeLimit="#{constants.getMaxFileSize()}"
+									fileLimit="#{constants.getMaxFileUploadLimit()}"
+									allowTypes="/(\.|\/)(gif|jpe?g|png)$/" styleClass="download">
+								</p:fileUpload>
+								<p:panel widgetVar="ajaxStatusForUpload"
+									style="display:none; width:64px;height:64px;position:fixed;right:5px;bottom:5px">
+									<h:graphicImage value="/static/image/loading.gif" />
+								</p:panel>
+
+								<p:growl id="messages" showDetail="true" />
+								<h:outputText id="cde"
+									value="#{fileUploadController.uploadedFiles.size()} file uploading"
+									rendered="#{fileUploadController.uploadedFiles.size() > 0}" />
+
+								<p:panel id="abc">
+								<p:messages closable="true" escape="false"/>
+									<ui:fragment
+										rendered="#{fileUploadController.uploadedFiles.size() > 0}">
+										<table cellspacing="4" cellpadding="4" border="0">
+											<tr align="center">
+												<td><b>File Name</b></td>
+												<td><b>Image</b></td>
+												<td><b>Description</b></td>
+											</tr>
+											<ui:repeat value="#{fileUploadController.uploadedFiles}"
+												var="img" varStatus="st">
+												<tr>
+													<td>#{st.index} #{img.uploadedFile.fileName}</td>
+													<td><img
+														src="${request.contextPath}/image?id=#{img.fileName}"
+														height="100" width="100" /></td>
+													<td><p:inputTextarea value="#{img.eventDescription}"
+															required="false" rows="5" cols="51" counter="counter"
+															maxlength="255"
+															counterTemplate="{0} characters remaining."
+															autoResize="false" />
+														<p /> <h:outputText id="counter" /></td>
+													<td>
+														<p:commandButton action="#{fileUploadController.remove(img)}" ajax="true" value="Remove" 
+																update=":uploadForm:messages :uploadForm:abc" styleClass="profilebut"/>
+													</td>
+												</tr>
+											</ui:repeat>
+											<tr>
+												<td colspan="3">&#160;</td>
+											</tr>
+											<tr>
+												<td colspan="3" align="center"><p:commandButton
+														id="save" action="#{fileUploadController.save()}"
+														update="messages" value="Save Description" ajax="false"
+														styleClass="profilebut"
+														rendered="#{fileUploadController.uploadedFiles.size() > 0}" />
+												</td>												
+											</tr>
+										</table>
+									</ui:fragment>
+								</p:panel>
+							</h:form>
+						</ui:fragment>
+						<ui:fragment
+							rendered="#{!groupBean.isUploadScheduleValid(dashBean.currentEventId)}">
+							<span style="color: red; font-weight: bolder;">Picture
+								upload is not available at this time.</span>
+						</ui:fragment>
+
+						<div style="width: 100%; height: 15px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</ui:define>
+</ui:composition>

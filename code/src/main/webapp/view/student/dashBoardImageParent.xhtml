@@ -1,0 +1,498 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layouts/standard.xhtml">
+
+
+	<ui:define name="body">
+		<ui:include src="onecolumnbody.xhtml" />
+	</ui:define>
+	<ui:define name="toolbar">
+		<ui:include src="header.xhtml" />
+	</ui:define>
+	<ui:define name="submenu">
+		<ui:include src="photosubmenu.xhtml" />
+	</ui:define>
+	<ui:define name="unicolumn">
+		<h:outputScript library="primefaces" name="jquery/jquery.js"></h:outputScript>
+		<h:outputScript library="primefaces" name="jquery/jquery-plugins.js"></h:outputScript>
+		<style type="text/css">
+.control-column {
+	padding: 0px !important;
+}
+</style>
+		<div style="height: 60px;">&#160;</div>
+
+		<div style="height: 60px;">&#160;</div>
+
+		<link href="${request.contextPath}/static/css/newImageActivity.css"
+			rel="stylesheet" type="text/css" />
+		<p:growl id="growl" showDetail="true" autoUpdate="true">
+		</p:growl>
+		<h:panelGroup id="mainPanel">
+			<h:panelGroup rendered="#{dashImageBean.currentImage eq null}">
+			There are no images found to view! 
+		</h:panelGroup>
+			<h:form prependId="false" id="imageForm"
+				rendered="#{dashImageBean.currentImage ne null}">
+				<center>
+					<table>
+						<tr>
+							<td><p:commandLink styleClass="reportpagebut"
+									style="margin-right: 20px;" title="Go to previous!"
+									actionListener="#{dashImageBean.goToPrevious()}"
+									update="imageForm commentSection tagDlg">
+							Previous
+						</p:commandLink></td>
+							<td>Activity ( <h:outputText
+									value="#{(dashImageBean.currentIndex)+1 }" /> / <h:outputText
+									value="#{dashImageBean.totalImages}" /> )
+							</td>
+							<td><p:commandLink styleClass="reportpagebut"
+									style="margin-left: 20px;" title="Go to next!"
+									actionListener="#{dashImageBean.goToNext()}"
+									update="imageForm commentSection tagDlg">
+					Next
+				</p:commandLink></td>
+						</tr>
+					</table>
+					<a class="graphicImage reportpagebut" style="float: right;"
+						onclick="toggleComment()">Toggle Comment Section</a> <br />
+					<div style="width: 100%; height: 15px;">&#160;</div>
+				</center>
+				<h:panelGroup id="containerParent">
+
+					<div class="container">
+						<!-- #######################################################################  -->
+						<div class="left-section">
+							<h:graphicImage value="#{dashImageBean.getCurrentImageUri()}"
+								style="overflow:hidden;" id="popImgId" />
+						</div>
+						<!-- #######################################################################  -->
+						<div id="righHideout" class="right-section">
+							<div class="container">
+								<!-- profile !-->
+								<div style="padding: 10px; background-color: #FFFFFF">
+									<div style="float: left;">
+										<h:graphicImage onclick="hoverImage()"
+											styleClass="graphicImage"
+											value="/profile?id=#{dashImageBean.currentImage.eventSecurityUser.securityUser.userProfile.imageFileName}"
+											width="66" height="69"
+											rendered="#{!empty dashImageBean.currentImage.eventSecurityUser.securityUser.userProfile.imageFileName}" />
+										<h:graphicImage value="/static/image/anon.jpg" width="66"
+											height="69"
+											rendered="#{empty dashImageBean.currentImage.eventSecurityUser.securityUser.userProfile.imageFileName}" />
+									</div>
+									<div style="padding: 5px;">
+										<div class="postheader">#{dashImageBean.currentImage.eventSecurityUser.securityUser.userProfile.firstName}
+											#{dashImageBean.currentImage.eventSecurityUser.securityUser.userProfile.lastName}</div>
+										<div class="posttxt">
+											Uploaded
+											<h:outputText
+												value="#{dashImageBean.currentImage.uploadDateTime}">
+												<f:converter converterId="org.ocpsoft.PrettyTimeConverter" />
+											</h:outputText>
+										</div>
+
+									</div>
+								</div>
+								<p:commandLink style="float:right; margin-top:-10px;"
+									rendered="#{dashImageBean.currentImage.eventSecurityUser.securityUser.userProfile.userProfileId == dashBean.userProfile.userProfileId}"
+									action="#{dashImageBean.setEditable(true)}" immediate="true"
+									update="imageForm commentSection"
+									title="click here to edit this description!">
+									<h:graphicImage value="/static/image/edit.png" height="30px"
+										width="30px" />
+								</p:commandLink>
+								<br />
+								<div class="description">
+									<h:outputText
+										value="#{dashImageBean.currentImage.eventDescription}"
+										rendered="#{!dashImageBean.editable}" />
+									<h:panelGroup rendered="#{dashImageBean.editable}">
+										<p:inputTextarea id="editDesc" maxlength="250"
+											style="margin: 2px 0px; width: 220px; height: 70px;border: 1px solid #dbdbdb;"
+											value="#{dashImageBean.currentImage.eventDescription}"
+											styleClass="cmttextarea" />
+										<br />
+										<p:commandLink styleClass="reportpagebut"
+											action="#{dashImageBean.editDescription()}" value="Save"
+											update="imageForm commentSection" process="@this, editDesc" />
+									</h:panelGroup>
+								</div>
+								<div style="width: 100%; height: 5px; font-size: 13px;">&#160;</div>
+								<div style="font-size: 13px;">
+									<b>Comments (#{dashImageBean.getCommentCount()})</b>
+								</div>
+								<!-- profile !-->
+								<!-- #######################################################################  -->
+								<div class="top-section">
+									<h:panelGroup id="commentSection">
+										<!-- notification !-->
+										<ui:repeat var="comment"
+											value="#{dashImageBean.currentImage.comments.toArray()}"
+											status="st">
+											<h:panelGroup rendered="#{comment.commentStatusId == 1}">
+												<!-- notification start !-->
+												<div style="background-color: #FFFFFF">
+													<!-- row !-->
+													<div style="width: 100%; height: 5px;">&#160;</div>
+													<div>
+														<div class="notirowlfimg">
+															<h:graphicImage
+																value="/profile?id=#{comment.eventSecurityUser.securityUser.userProfile.imageFileName}"
+																width="35" height="35"
+																rendered="#{!empty comment.eventSecurityUser.securityUser.userProfile.imageFileName}" />
+															<h:graphicImage value="/static/image/anon.jpg" width="35"
+																height="35"
+																rendered="#{comment.eventSecurityUser.securityUser.userProfile.imageFileName}" />
+														</div>
+
+														<div class="notirowlftxt">
+															<b>#{comment.eventSecurityUser.securityUser.userProfile.firstName}
+																#{comment.eventSecurityUser.securityUser.userProfile.lastName}
+															</b> <br />
+															<h:outputLink id="#{st}comm" value="#"
+																style="text-decoration: none">
+				    #{comment.shortCommentText}<h:outputText value="..."
+																	rendered="#{comment.commentText.length() >= 40}" />
+															</h:outputLink>
+															<p:tooltip for="#{st}comm" value="#{comment.commentText}"
+																showEffect="fade" hideEffect="fade"
+																styleClass="width: 100px; overflow:auto;" />
+															<br /> <span style="font-size: .9em; color: #cccccc">
+																<h:outputText value="#{comment.createTimestamp}">
+																	<f:converter
+																		converterId="org.ocpsoft.PrettyTimeConverter" />
+																</h:outputText>
+															</span> <br />
+															<p:commandLink style="float: right; margin-top: -15px;"
+																oncomplete="PF('wgtCommentFlagDialog').show()"
+																actionListener="#{dashImageBean.setFlaggedComment(comment)}" process="@this" update="@none">
+																
+																<h:graphicImage value="/static/image/flag_icon.png"
+																	title="Report this comment!" width="15" height="15"
+																	alt="Delete" />
+															</p:commandLink>
+															<h:panelGrid columns="2"
+																style="float: right; margin-top: -15px;"
+																rendered="#{(comment.eventSecurityUser.securityUser.userProfile.userProfileId == dashBean.userProfile.userProfileId)or(dashImageBean.currentImage.eventSecurityUser.securityUser.userProfile.userProfileId == dashBean.userProfile.userProfileId)}">
+																<p:commandLink
+																	onclick="PF('deleteCommentDialog').show()"
+																	update="@this">
+																	<h:graphicImage value="/static/image/trash_new.png"
+																		title="Delete this comment!" width="15" height="15"
+																		alt="Delete" />
+																	<f:setPropertyActionListener
+																		target="#{dashImageBean.currentDeletableComment}"
+																		value="#{comment}" />
+																</p:commandLink>
+
+															</h:panelGrid>
+
+														</div>
+														<div class="clear"></div>
+													</div>
+													<!-- row !-->
+													<div class="notiline">&#160;</div>
+												</div>
+												<!-- notification end !-->
+											</h:panelGroup>
+										</ui:repeat>
+									</h:panelGroup>
+								</div>
+								<!-- #######################################################################  -->
+								<div style="bottom: 0">
+									<div style="width: 100%; height: 5px;">&#160;</div>
+
+									<p:inputTextarea id="cmttextarea" class="cmttextarea"
+										maxlength="250"
+										style="margin: 2px 0px; width: 220px; height: 70px;border: 1px solid #dbdbdb;"
+										value="#{dashImageBean.commentText}" />
+									<br /> <br />
+									<div align="right" style="padding-right: 25px;">
+										<p:commandLink
+											actionListener="#{dashImageBean.addNewComment()}"
+											class="cmtshare" value="Share"
+											update="commentSection imageForm" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- ############################################################################# -->
+					<div class="contorls">
+						<h:panelGrid columns="4" id="controls"
+							columnClasses="control-column" cellpadding="4" cellspacing="5">
+							<p:commandLink actionListener="#{dashImageBean.like()}"
+								rendered="#{!dashBean.checkImageLikeExistence(dashImageBean.currentImage.imageId)}"
+								update="controls @(#growl)" immediate="true"
+								style="text-decoration:none; color:inherit">
+								<h:graphicImage value="/static/image/like_icon.png"
+									style="width: 20px !important;height: 20px !important;"
+									alt="Like" title="Like" />
+								<h:outputText value="#{dashImageBean.currentImage.voteCount}" />
+
+							</p:commandLink>
+
+							<p:commandLink actionListener="#{dashImageBean.unLike()}"
+								update="controls @(#growl)" immediate="true"
+								style="text-decoration:none; color:inherit"
+								rendered="#{dashBean.checkImageLikeExistence(dashImageBean.currentImage.imageId)}">
+								<h:graphicImage value="/static/image/like_icon_select.png"
+									style="width: 20px !important;height: 20px !important;"
+									alt="Unlike" title="Unlike" />
+								<h:outputText value="#{dashImageBean.currentImage.voteCount}" />
+
+							</p:commandLink>
+
+							<p:commandLink oncomplete="PF('wgtTagDialog').show()"
+								style="text-decoration:none; color:inherit"
+								update="@this, controls">
+								<h:graphicImage value="/static/image/tag_nrm.png"
+									style="width: 20px !important;height: 20px !important;"
+									alt="Tag"
+									rendered="#{!dashBean.checkTagExistence(dashImageBean.currentImage.imageId)}" />
+								<h:graphicImage value="/static/image/tag_nrm_select.png"
+									style="width: 20px !important;height: 20px !important;"
+									alt="Tag"
+									rendered="#{dashBean.checkTagExistence(dashImageBean.currentImage.imageId)}" /> #{dashImageBean.currentImage.tagCount}
+								
+					</p:commandLink>
+
+							<p:commandLink onclick="PF('deleteDialog').show()"
+								style="text-decoration:none; color:inherit" update="@this"
+								rendered="#{dashImageBean.currentImage.eventSecurityUser.securityUser.userProfile.userProfileId == dashBean.userProfile.userProfileId}">
+								<h:graphicImage value="/static/image/trash_new.png"
+									style="width: 20px !important;height: 20px !important;"
+									alt="Tag" />&#160; 
+							
+					</p:commandLink>
+
+							<p:commandLink onclick="PF('wgtFlagDialog').show()"
+								style="text-decoration:none; color:inherit"
+								update="@this, controls">
+								<img src="${request.contextPath}/static/image/flag_icon.png"
+									style="width: 20px !important; height: 20px !important;" />
+
+							</p:commandLink>
+						</h:panelGrid>
+					</div>
+				</h:panelGroup>
+				<!--  ################################################# -->
+				<!-- tag Dialog start -->
+
+				<p:dialog id="tagDlg" width="300px" height="400px"
+					appendToBody="false" widgetVar="wgtTagDialog" showEffect="fade"
+					hideEffect="explode" resizable="false" modal="true"
+					header="Tag a friend" dynamic="true"
+					style="background-color:#FFFFFF">
+					<p:ajaxStatus>
+						<f:facet name="start">
+							<p:graphicImage value="/static/image/ajax-loader.gif"/>
+						</f:facet>
+						<f:facet name="success">
+							<h:outputText value="" />
+						</f:facet>
+						<f:facet name="error">
+							<h:outputText value="An error has occurred!"
+								style="padding:10px;" />
+						</f:facet>
+					</p:ajaxStatus>
+					<p:panel style="background-color: #FFFFFF">
+						<p:selectManyMenu id="userId"
+							value="#{dashImageBean.taggedUserIds}" var="user"
+							showCheckbox="true" converter="omnifaces.SelectItemsConverter">
+							<f:selectItems value="#{dashBean.currentEventUsers}" var="c"
+								itemLabel="#{c.securityUser.userProfile.firstName} #{c.securityUser.userProfile.lastName} "
+								itemValue="#{c}" />
+							<p:column>
+						&#160;&#160;&#160;&#160;
+						<p:graphicImage
+									value="/profile?id=#{user.securityUser.userProfile.imageFileName}"
+									width="35" height="35"
+									rendered="#{!empty user.securityUser.userProfile.imageFileName}" />
+								<p:graphicImage value="/static/image/anon.jpg" width="35"
+									height="35"
+									rendered="#{empty user.securityUser.userProfile.imageFileName}" />
+							</p:column>
+							<p:column>
+						#{user.securityUser.userProfile.firstName} #{user.securityUser.userProfile.lastName}
+					</p:column>
+							<p:column>
+								<h:graphicImage value="/static/image/tag_nrm_select.png"
+									width="24" height="21" alt="Tag"
+									rendered="#{dashImageBean.printTaggedUser(user.eventSecurityUserId) eq 'tagged'}" />
+							</p:column>
+							<p:row>
+								<hr />
+							</p:row>
+						</p:selectManyMenu>
+						<br />
+						<br />
+						<div align="right" style="padding-right: 25px;">
+							<p:commandLink actionListener="#{dashImageBean.tagImage()}"
+								oncomplete="PF('wgtTagDialog').hide();" class="cmtshare"
+								value="Tag" update="controls imageForm"
+								rendered="#{dashBean.userAuthenticatedToTag}" />
+
+						</div>
+					</p:panel>
+				</p:dialog>
+				<!--  tag Dialog end -->
+				<!-- Comment Flag start -->
+				<p:dialog id="commentflagDlg" width="300px" height="250px"
+					appendToBody="false" widgetVar="wgtCommentFlagDialog" showEffect="fade"
+					hideEffect="explode" resizable="false" modal="true"
+					header="Flag inappropriate Comment" style="background-color:#FFFFFF">
+					<p:ajaxStatus>
+						<f:facet name="start"><p:graphicImage value="/static/image/ajax-loader.gif"/></f:facet>
+						<f:facet name="success">
+							<h:outputText value="" />
+						</f:facet>
+						<f:facet name="error">An error has occurred!</f:facet>
+					</p:ajaxStatus>					
+					<p:panel style="background-color: #FFFFFF">
+					<p:messages/>
+						<b>Reason : </b><p:selectOneMenu id="creasonId"
+							value="#{dashImageBean.flagReasonId}">
+							<f:selectItem itemLabel="Select one" itemValue=""/>
+							<f:selectItems value="#{referenceData.getRequestReasonList()}"
+								var="u" itemLabel="#{u.requestReasonDescription}"
+								itemValue="#{u.requestReasonId}" />
+						</p:selectOneMenu>
+						<p>&#160;</p>
+						<b>Description : </b><h:inputTextarea id="cdescrr" class="cmttextarea"
+							style="margin: 2px 0px; width: 220px; height: 70px;"
+							value="#{dashImageBean.flagText}" />
+						<br />
+						<br />
+						<div align="right" style="padding-right: 25px;">
+							<p:commandLink actionListener="#{dashImageBean.reportThisComment()}"
+								class="cmtshare" value="Flag"								
+								update="commentflagDlg commentSection" />
+						</div>
+					</p:panel>
+				</p:dialog>
+				<!-- Comment flag Dialog end -->
+				<!-- Image flag Dialog start -->
+
+				<p:dialog id="flagDlg" width="300px" height="250px"
+					appendToBody="false" widgetVar="wgtFlagDialog" showEffect="fade"
+					hideEffect="explode" resizable="false" modal="true"
+					header="Flag inappropriate photo" style="background-color:#FFFFFF">
+					<p:ajaxStatus>
+						<f:facet name="start"><p:graphicImage value="/static/image/ajax-loader.gif"/></f:facet>
+						<f:facet name="success">
+							<h:outputText value="" />
+						</f:facet>
+						<f:facet name="error">An error has occurred!</f:facet>
+					</p:ajaxStatus>
+					<p:panel style="background-color: #FFFFFF">
+						<b>Reason : </b><p:selectOneMenu id="reasonId"	value="#{dashImageBean.flagCommentReasonId}">
+							<f:selectItem itemLabel="Select one" itemValue=""/>
+							<f:selectItems value="#{referenceData.getRequestReasonList()}"
+								var="u" itemLabel="#{u.requestReasonDescription}"
+								itemValue="#{u.requestReasonId}" />
+						</p:selectOneMenu>
+						<p>&#160;</p>
+						<b>Description : </b><h:inputTextarea class="cmttextarea"
+							style="margin: 2px 0px; width: 220px; height: 70px;"
+							value="#{dashImageBean.flagCommentText}" />
+						<br />
+						<br />
+						<div align="right" style="padding-right: 25px;">
+							<p:commandLink actionListener="#{dashImageBean.flag()}"
+								class="cmtshare" value="Flag"
+								oncomplete="PF('wgtFlagDialog').hide();"
+								update="flagDlg imageForm :mainPanel" />
+						</div>
+					</p:panel>
+				</p:dialog>
+				<!--  Image flag Dialog end -->
+				<!--  ################################################# -->
+				<!-- image delete dialog start  -->
+				<p:dialog id="delete_dialog" width="300px" height="100px"
+					appendToBody="false" widgetVar="deleteDialog" showEffect="fade"
+					hideEffect="explode" resizable="false" modal="true"
+					header="Delete Picture" style="background-color:#FFFFFF">
+
+					<h:panelGrid id="delete" columns="2" cellpadding="4">
+
+						<f:facet name="header">
+              	 Are you sure you want to delete this Picture?
+             
+				</f:facet>
+						<p:commandLink actionListener="#{dashImageBean.deleteImage}"
+							class="cmtshare" value="Delete"
+							oncomplete="handleDeleteRequest(xhr, status, args)"
+							update="controls imageForm :mainPanel" />
+						<p:commandLink class="cmtshare" value="Cancel"
+							onclick="deleteDialog.hide()" />
+
+					</h:panelGrid>
+
+				</p:dialog>
+				<!-- image delete dialog end  -->
+				<!--  ################################################# -->
+				<!-- comment delete dialog start  -->
+				<p:dialog id="delete_dialog_comment" width="300px" height="100px"
+					appendToBody="false" widgetVar="deleteCommentDialog"
+					showEffect="fade" hideEffect="explode" resizable="false"
+					modal="true" header="Delete Comment"
+					style="background-color:#FFFFFF">
+
+					<h:panelGrid columns="2" cellpadding="4">
+
+						<f:facet name="header">
+              	 Are you sure you want to delete this Comment?
+             	</f:facet>
+
+						<p:commandLink
+							actionListener="#{dashImageBean.deleteCurrentComment}"
+							class="cmtshare" value="Delete"
+							oncomplete="PF('deleteCommentDialog').hide();"
+							update="@form:imageForm">
+
+						</p:commandLink>
+						<p:commandLink class="cmtshare" value="Cancel"
+							onclick="deleteCommentDialog.hide()" />
+					</h:panelGrid>
+				</p:dialog>
+				<!-- comment delete dialog end  -->
+				<!--  ################################################# -->
+
+			</h:form>
+			<div style="height: 60px;">&#160;</div>
+		</h:panelGroup>
+		<script>
+		function handleDeleteRequest(xhr, status, args) {
+			if (args.validationFailed) {
+				PF('deleteDialog').jq.effect("shake", {
+					times : 5
+				}, 100);
+			} else {
+				PF('deleteDialog').hide();				
+			}
+		}
+
+		
+		var flag=false;
+		function toggleComment(){
+			console.log('working');
+			if(flag){	
+				$('.left-section').animate({marginRight: '252'});
+				$('.right-section').delay(500).slideDown(500);
+				flag=false;
+			}else{				
+				$('.right-section').slideUp(500);
+				$('.left-section').delay(500).animate({marginRight: '0'});
+				
+				flag=true;
+			}
+		}
+		</script>
+	</ui:define>
+</ui:composition>

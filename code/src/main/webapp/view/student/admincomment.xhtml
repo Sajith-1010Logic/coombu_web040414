@@ -1,0 +1,134 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<style type="text/css">
+		.ui-widget-content .flageedtxt a.ui-widget img{ width:300px !important; height:auto !important;}
+		.flageedtxt .flageedtxt , .flageedtxt .flageedheader 
+		{
+			font-size: 12px;		
+	 		font-weight:normal;
+			text-align:center;;color: #515252;
+		}
+		
+		.flageedtxt {
+			font-size: 13px;
+			text-align: left;
+			padding: 8px 0px 10px;
+		}
+		.flageedtxt .ui-widget-content a , .flageedtxt .ui-widget-content a:hover{ padding: 3px 10px !important;}
+		.ui-widget-content a{ color:#FFF;}
+		#photos_content{ background:none;}
+		.ui-panel.ui-widget.ui-widget-content {background:none;}
+	</style>
+	<div id="fade" class="black_overlay" />
+
+	<p:panel>
+		<!-- single post !-->
+		<h:panelGroup id="flaggedComments"
+			rendered="#{adminBean.flagedCommentList.size()>0}">
+			
+			<div style="background: #FFF;margin: 0px 1px;width: 354px; margin-bottom:10px;">
+					<p  style="background: #FFF;padding: 10px 22px 10px;margin: 0px;" class="activitytxt">FLAGGED COMMENTS</p>
+				</div>
+			<div class="singlepost">
+				
+				<ui:repeat value="#{adminBean.flagedCommentList}" var="flag"
+					varStatus="st">
+					<!-- single flagged !-->
+					<div>
+						<div class="flageedtxt">
+							<div style="float: left; width: 5%; height: 90px;">
+								<div style="padding-left: 15px;"></div>
+							</div>
+							<div style="height: 15px;">
+									<b>Comment by : </b>
+									<h:outputText value="#{flag.comment.eventSecurityUser.securityUser.userProfile.firstName}" />
+									&#160;
+									<h:outputText value="#{flag.comment.eventSecurityUser.securityUser.userProfile.lastName}" />
+								</div>
+								<div style="height: 15px; font-size:11px;">
+									<b>Flagged by : </b>
+									<h:outputText value="#{flag.flagedBy.firstName}" />
+									&#160;
+									<h:outputText value="#{flag.flagedBy.lastName}" />
+								</div>
+								<div style="height: 15px; font-size:11px;">
+									<b>Reason : </b>#{flag.reason}
+								</div>
+								<div style="height: auto; font-size:11px;">
+									<b>Requester Comment : </b>#{flag.description}
+								</div>
+								
+							<div style="float: left; width: 95%; height: auto;">
+								<div style="height: auto;">
+									<b>Flagged Comment : </b>
+									<h:outputText value="#{flag.comment.commentText}" />
+								</div>
+								<div style="float: left; height: auto; width: 100%; text-align: center;">
+								<div style="padding-left: 0px; margin-top: 10px; margin-bottom: 10px;">
+										<h:graphicImage
+											value="/image?id=#{flag.fileName}&amp;type=activity"
+											width="300" height="" alt="" />
+								</div>
+							</div>
+							<div style="float: left; width: 100%; text-align: center; margin: 6px 0px 0px; border: 0px none;">
+								<div style="height: 25px;" align="center">
+									<p:commandLink
+										oncomplete="PF('overlayWidget').hide();$('#fade').hide();"
+										class="flagreportbut"
+										actionListener="#{adminBean.setSelectedComment(flag.removalRequestId,flag.comment.commentId,'repost')}">
+						REPOST
+						<p:confirm header="Confirmation" message="Are you sure?"
+											icon="ui-icon-alert" />
+									</p:commandLink>
+									&#160;&#160;
+									<p:commandLink class="flagdeletebut"
+										oncomplete="PF('overlayWidget').hide();$('#fade').hide();"
+										actionListener="#{adminBean.setSelectedComment(flag.removalRequestId, flag.comment.commentId,'delete')}">
+					DELETE
+					<p:confirm header="Confirmation" message="Are you sure?"
+											icon="ui-icon-alert" />
+									</p:commandLink>
+								</div>									
+								<div style="width: 85%; height: 3px; background-color: #ebebeb;margin-top: 20px;"/>
+								</div>
+								
+							</div>
+							
+						</div>
+					</div>
+					<!-- single flagged !-->
+
+					<div class="clear"></div>
+					<div style="width: 100%; height: 15px;">&#160;</div>
+				</ui:repeat>
+				<div class="clear"></div>
+				<div style="width: 100%; height: 10px;">&#160;</div>
+			</div>
+			<!-- single post !-->
+		</h:panelGroup>
+		<h:panelGroup rendered="#{empty adminBean.flagedCommentList}">
+		<div style="background: #FFF;margin: 0px 1px;width: 354px; margin-bottom:10px;">
+					<p  style="background: #FFF;padding: 10px 22px 10px;margin: 0px;" class="activitytxt">FLAGGED COMMENTS</p>
+				</div>
+			<div class="singlepost">
+				
+				<div>
+					<div class="flageedtxt">
+						<div style="padding-left: 15px;">There is no flagged
+							comments at the moment!</div>
+					</div>
+				</div>
+				<div style="width: 100%; height: 10px;">&#160;</div>
+			</div>
+
+		</h:panelGroup>
+
+		<div style="width: 100%; height: 10px;">&#160;</div>
+	</p:panel>
+
+
+</ui:composition>

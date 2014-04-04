@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div class="leftnotification">
+
+		<ui:include src="profileFacelet.xhtml" />
+		<div style="width: 100%; height:10px;">&#160;</div>
+		<div style="width: 95%; background-color: #fbfbfb; margin-top: 0px;">
+ 			<!--<div style="width: 100%; height: 10px;">&#160;</div> -->
+			<!-- My activity total count:
+			<h:outputText value="#{historyBean.myTotalCount}" />
+			<br /> Group activity total count:
+			<h:outputText value="#{historyBean.groupTotalCount}" />
+			<br /> -->
+			<h:panelGroup id="myActivity">
+				<ui:include src="activityFacelet.xhtml">
+					<ui:param name="activityTitle" value="My Account Activity" />
+					<ui:param name="activityList" value="#{historyBean.myActivity}" />
+				</ui:include>
+			</h:panelGroup>
+			<h:form rendered="#{!empty historyBean.myActivity}" prependId="false">
+				<table>
+					<tr>
+						<td><p:commandLink
+								action="#{historyBean.goToPreviousForMyActivity()}"
+								value="&lt;&lt;" title="Previous" immediate="true" ajax="false"
+								rendered="#{historyBean.myCurrentPage gt 1}"
+								update=":myActivity" styleClass="reportpagebut"></p:commandLink></td>
+						<td title="Pages #{historyBean.myCurrentPage} / #{historyBean.myTotalPages}"><h:outputText
+								value="#{historyBean.myCurrentPage}" /> / <h:outputText
+								value="#{historyBean.myTotalPages}" /></td>
+						<td><p:commandLink
+								action="#{historyBean.goToNextForMyActivity()}" value="&gt;&gt;"
+								title="Next" styleClass="reportpagebut" immediate="true"
+								ajax="false" update=":myActivity"
+								rendered="#{(historyBean.myTotalPages gt 1) and (historyBean.myCurrentPage lt historyBean.myTotalPages)}"></p:commandLink></td>
+					</tr>
+				</table>
+			</h:form>
+			<div style="width: 100%; height: 10px;">&#160;</div>
+
+			<div style="width: 100%; height: 25px;">&#160;</div>
+			<h:panelGroup id="groupActivity">
+				<ui:include src="activityFacelet.xhtml">
+					<ui:param name="activityTitle" value="Group Activity" />
+					<ui:param name="activityList" value="#{historyBean.groupActivity}" />
+				</ui:include>
+			</h:panelGroup>
+			<h:form rendered="#{!empty historyBean.groupActivity}"
+				prependId="false">
+				<table>
+					<tr>
+						<td><p:commandLink
+								action="#{historyBean.goToPreviousForGroupActivity()}"
+								value="&lt;&lt;" title="Previous" immediate="true" ajax="false"
+								rendered="#{historyBean.groupCurrentPage gt 1}"
+								update=":groupActivity" styleClass="reportpagebut"></p:commandLink></td>
+						<td	title="Pages #{historyBean.groupCurrentPage} / #{historyBean.groupTotalPages}"><h:outputText
+								value="#{historyBean.groupCurrentPage}" /> / <h:outputText
+								value="#{historyBean.groupTotalPages}" /></td>
+						<td><p:commandLink
+								action="#{historyBean.goToNextForGroupActivity()}"
+								value="&gt;&gt;" title="Next" styleClass="reportpagebut"
+								immediate="true" ajax="false" update=":groupActivity"
+								rendered="#{(historyBean.groupTotalPages gt 1) and (historyBean.groupCurrentPage lt historyBean.groupTotalPages)}"></p:commandLink></td>
+					</tr>
+				</table>
+			</h:form>
+			<div style="width: 100%; height: 10px;">&#160;</div>
+		</div>
+		<div style="width: 100%; height: 8px;">&#160;</div>
+	</div>
+	<!-- left notification !-->
+</ui:composition>

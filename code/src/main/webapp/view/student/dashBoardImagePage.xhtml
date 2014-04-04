@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:growl autoUpdate="true" id="growl"></p:growl>
+
+
+	<div style="width: 100%; height: 15px;"></div>
+
+	<h:form prependId="false">
+		<p:layout id="popup">
+			<!-- center layout unit start -->
+			<p:layoutUnit position="center" style="width:1000x; overflow:hidden;">
+				<h:graphicImage value="#{dashBean.getCurrentImageUri()}"
+					style="overflow:hidden;" id="popImgId" />
+				<p:commandLink class="rightArrow ui-state-default "
+					actionListener="#{dashBean.getNextImageUri()}"
+					update="popImgId  popup ">
+					<span class="ui-icon ui-icon-carat-1-e" />
+				</p:commandLink>
+				<p:commandLink class="leftArrow ui-state-default"
+					actionListener="#{dashBean.getPrevImageUri()}"
+					update="popImgId  popup ">
+					<span class="ui-icon ui-icon-carat-1-w" />
+				</p:commandLink>
+				<div
+					style="position: absolute; top: 570px; left: 0%; width: 100%; height: 5%; background-color: rgb(3, 3, 3); opacity: .80; -moz-opacity: 0.80; filter: alpha(opacity = 80); -moz-border-radius: 0px; border-radius: 0px;" />
+				<div
+					style="position: absolute; top: 560px; left: 10%; width: 80%; height: 5%; color: white; -moz-border-radius: 0px; border-radius: 0px vertical-align: middle">
+					<div
+						style="float: left; width: 25%; height: auto; margin-top: 15px;">
+						<p:commandLink actionListener="#{dashBean.addLike(img.imageId)}"
+							update="@this @(#growl) popup" process="@this"
+							style="text-decoration:none; color:inherit">
+							<img src="${request.contextPath}/static/image/like_icon.png"
+								width="24" height="21" alt="Like" />
+							<h:outputText value="#{img.voteCount}" /> Like
+                			</p:commandLink>
+
+					</div>
+					<div
+						style="float: left; width: 25%; height: auto; margin-top: 15px;">
+						<img src="${request.contextPath}/static/image/tag_nrm.png"
+							width="24" height="21" alt="Tag" /> #{img.tagCount} Tag
+					</div>
+					<div
+						style="float: left; width: 25%; height: auto; margin-top: 15px;">
+						<img src="${request.contextPath}/static/image/trash.png"
+							width="24" height="21" /> Delete
+					</div>
+					<div
+						style="float: left; width: 25%; height: auto; margin-top: 15px;">
+						<img src="${request.contextPath}/static/image/flag_icon.png"
+							width="24" height="21" /> Report
+					</div>
+				</div>
+			</p:layoutUnit>
+			<!-- center layout unit end -->
+			<!-- east layout unit start -->
+			<p:layoutUnit position="east"
+				style="background: white !important; left:787px; height:600px; width:350px; position:absolute"
+				id="lightBoxComments">
+				<ui:include src="lightboxcomment.xhtml">
+					<ui:param name="commentList"
+						value="#{dashBean.getCurrentImageActivity()}" />
+				</ui:include>
+			</p:layoutUnit>
+			<!-- east layout unit end -->
+		</p:layout>
+		<!-- popup layout end -->
+	</h:form>
+
+</ui:composition>
+

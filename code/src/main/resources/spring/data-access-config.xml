@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:jee="http://www.springframework.org/schema/jee"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	                    http://www.springframework.org/schema/tx 
+	                    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	                    http://www.springframework.org/schema/jee 
+	                    http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+
+	<!-- Instructs Spring to perform declarative transaction management on annotated 
+		classes -->
+	<tx:annotation-driven />
+	
+	<jee:jndi-lookup id="dataSource" jndi-name="${jndi.datasource}" />
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+ 		<property name="entityInterceptor">
+		 	<bean class="com.coombu.photobook.interceptor.AuditInterceptor"/>
+		 </property>
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=${hibernate.dialect}
+				hibernate.show_sql=${hibernate.show_sql}
+				hibernate.format_sql=${hibernate.format_sql}
+				hibernate.generate_statistics=${hibernate.generate_statistics}
+				hibernate.use_sql_comments=${hibernate.use_sql_comments}
+				hibernate.bytecode.provider=${hibernate.bytecode.provider}
+				hibernate.default_schema=${hibernate.default_schema}
+				hibernate.enable_lazy_load_no_trans=${hibernate.enable_lazy_load_no_trans}
+				
+			</value>
+		</property>
+		<property name="annotatedClasses">
+			<list>
+				<value>com.coombu.photobook.model.SecurityUser</value>
+				<value>com.coombu.photobook.model.ActivityHistory</value>
+				<value>com.coombu.photobook.model.Address</value>
+				<value>com.coombu.photobook.model.Book</value>
+				<value>com.coombu.photobook.model.CollegeRegistrationRequest</value>
+				<value>com.coombu.photobook.model.Comment</value>
+				<value>com.coombu.photobook.model.CommentVote</value>
+				<value>com.coombu.photobook.model.Event</value>
+				<value>com.coombu.photobook.model.EventCollege</value>
+				<value>com.coombu.photobook.model.EventSecurityUser</value>
+				<value>com.coombu.photobook.model.EventTemplate</value>				
+				<value>com.coombu.photobook.model.Image</value>
+				<value>com.coombu.photobook.model.ImageTag</value>
+				<value>com.coombu.photobook.model.ImageViewCount</value>
+				<value>com.coombu.photobook.model.ImageVote</value>
+				<value>com.coombu.photobook.model.LoginHistory</value>
+				<value>com.coombu.photobook.model.PasswordHistory</value>
+				<value>com.coombu.photobook.model.Phone</value>
+				<value>com.coombu.photobook.model.RemovalRequest</value>
+				<value>com.coombu.photobook.model.RolePrivilege</value>
+				<value>com.coombu.photobook.model.Schedule</value>
+				<value>com.coombu.photobook.model.SecurityQuestionAnswer</value>
+				<value>com.coombu.photobook.model.SecurityUser</value>
+				<value>com.coombu.photobook.model.SecurityUserRole</value>
+				<value>com.coombu.photobook.model.Template</value>
+				<value>com.coombu.photobook.model.UserAddress</value>
+				<value>com.coombu.photobook.model.UserProfile</value>
+				<value>com.coombu.photobook.model.ImageBucket</value>
+				<value>com.coombu.photobook.model.ImageBucketImage</value>
+				<!-- Look Up Models -->
+				<value>com.coombu.photobook.model.lookup.ActivityType</value>
+				<value>com.coombu.photobook.model.lookup.AddressType</value>
+				<value>com.coombu.photobook.model.lookup.BookStatusType</value>
+				<value>com.coombu.photobook.model.lookup.CommentStatusType</value>
+				<value>com.coombu.photobook.model.lookup.Country</value>
+				<value>com.coombu.photobook.model.lookup.EventTypeTable</value>
+				<value>com.coombu.photobook.model.lookup.FileType</value>
+				<value>com.coombu.photobook.model.lookup.ImageSource</value>
+				<value>com.coombu.photobook.model.lookup.ImageStatusType</value>
+				<value>com.coombu.photobook.model.lookup.PhoneType</value>
+				<value>com.coombu.photobook.model.lookup.Privilege</value>
+				<value>com.coombu.photobook.model.lookup.RequestReason</value>
+				<value>com.coombu.photobook.model.lookup.RequestRemovalType</value>
+				<value>com.coombu.photobook.model.lookup.ResolutionStatus</value>
+				<value>com.coombu.photobook.model.lookup.Role</value>
+				<value>com.coombu.photobook.model.lookup.UserStatus</value>
+				<value>com.coombu.photobook.model.lookup.VoteType</value>
+				<value>com.coombu.photobook.model.lookup.ImageBucketType</value>
+			</list>
+		</property>
+	</bean>
+</beans>

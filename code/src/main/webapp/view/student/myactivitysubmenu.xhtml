@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<div align="left" style="padding: 12px 0px 0px 20px; height: 20px">
+		<p:commandLink
+			action="#{activityBean.loadData(dashBean.currentEventId,'MY_UPLOADED')}"
+			ajax="false" value="Uploaded Photos"
+			styleClass="#{ param['botmenu'] eq 'UPLOADED_PHOTOS' ? 'botlink_select' : 'botlink'}">
+			<f:param name="topmenu" value="ACTIVITY" />
+			<f:param name="botmenu" value="UPLOADED_PHOTOS" />
+		</p:commandLink>
+		&#160;&#160;&#160;&#160;&#160;
+		<p:commandLink
+			action="#{activityBean.loadData(dashBean.currentEventId,'TAGGED')}"
+			ajax="false" value="Tagged Photos"
+			class="#{ param['botmenu'] eq 'TAGGED' ? 'botlink_select' : 'botlink'}">
+			<f:param name="topmenu" value="ACTIVITY" />
+			<f:param name="botmenu" value="TAGGED" />
+		</p:commandLink>
+		&#160;&#160;&#160;&#160;&#160;
+		<p:commandLink
+			action="#{activityBean.loadData(dashBean.currentEventId,'MY_COMMENTS')}"
+			ajax="false" value="My Comments"
+			class="#{ param['botmenu'] eq 'MY_COMMENTS' ? 'botlink_select' : 'botlink'}">
+			<f:param name="topmenu" value="ACTIVITY" />
+			<f:param name="botmenu" value="MY_COMMENTS" />
+		</p:commandLink>
+		&#160;&#160;&#160;&#160;&#160;
+		<p:commandLink
+			action="#{activityBean.loadData(dashBean.currentEventId,'MY_LIKES')}"
+			ajax="false" value="My Likes"
+			class="#{ param['botmenu'] eq 'MY_LIKES' ? 'botlink_select' : 'botlink'}">
+			<f:param name="topmenu" value="ACTIVITY" />
+			<f:param name="botmenu" value="MY_LIKES" />
+		</p:commandLink>
+	</div>
+</ui:composition>

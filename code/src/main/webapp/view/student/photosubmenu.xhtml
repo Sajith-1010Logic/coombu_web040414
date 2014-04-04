@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<div align="left" style="padding: 12px 0px 0px 20px; height: 20px">
+		<p:commandLink action="#{dashBean.loadData(dashBean.currentEventId,'LATEST')}" ajax="false" value="Latest"	styleClass="#{ param['botmenu'] eq 'LATEST' ? 'botlink_select' : 'botlink'}">
+			<f:param name="topmenu" value="PHOTOS" />
+			<f:param name="botmenu" value="LATEST" />
+		</p:commandLink>
+		&#160;&#160;&#160;&#160;&#160;
+		<p:commandLink action="#{dashBean.loadData(dashBean.currentEventId,'MOST_LIKED')}" ajax="false"  value="Most Liked"	class="#{ param['botmenu'] eq 'MOST_LIKED' ? 'botlink_select' : 'botlink'}">
+			<f:param name="topmenu" value="PHOTOS" />
+			<f:param name="botmenu" value="MOST_LIKED" />
+		</p:commandLink>
+		&#160;&#160;&#160;&#160;&#160;
+		<p:commandLink action="#{dashBean.loadData(dashBean.currentEventId,'MOST_COMMENTED')}" ajax="false"  value="Most Commented"	class="#{ param['botmenu'] eq 'MOST_COMMENTED' ? 'botlink_select' : 'botlink'}">
+			<f:param name="topmenu" value="PHOTOS" />
+			<f:param name="botmenu" value="MOST_COMMENTED" />
+		</p:commandLink>		
+		&#160;&#160;&#160;&#160;&#160;
+		<h:link outcome="upload.xhtml" value="Upload" class="#{ param['botmenu'] eq 'UPLOAD' ? 'botlink_select' : 'botlink'}">
+			<f:param name="topmenu" value="PHOTOS" />
+			<f:param name="botmenu" value="UPLOAD" />
+		</h:link>
+	</div>
+</ui:composition>

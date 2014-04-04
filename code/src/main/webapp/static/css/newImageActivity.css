@@ -1,0 +1,45 @@
+.container {
+	position: relative;
+	height: 620px;
+	background-color: #FFFFFF;
+	/* border: 2px dotted black; */
+}
+
+.right-section {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 245px;
+	padding: 2px;
+	height: 100%;
+	/* border: 1px solid green; */
+}
+
+.left-section {
+	/* position is static by default */
+	position: relative;
+	margin-right: 252px;
+	/* border: 1px solid red; */
+	height: 100%;
+	padding: 2px;
+	overflow: auto;
+}
+
+.top-section {
+	position: relative;
+	height: 300px;
+	width: 100%;
+	overflow: auto;
+	/* border: 1px solid blue; */
+}
+
+.contorls {
+	padding: 10px;
+	background-color: #FFFFFF;
+	/* border: 1px solid red; */
+}
+
+.control-column {
+	padding: 10px;
+	margin-rigtht: 10px;
+}

@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+<f:view contentType="text/html">
+	<h:head>
+		<f:facet name="first">
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+			<meta name="keywords" content="Coombu" />
+			<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+			<title>Coombu :: Memories Unlimited</title>
+		</f:facet>
+		<link href="${request.contextPath}/static/css/layout.css"
+			rel="stylesheet" type="text/css" />
+		<link href="${request.contextPath}/static/css/color.css"
+			rel="stylesheet" type="text/css" />
+	</h:head>
+	<h:body>
+		<!-- main !-->
+		<div align="center">
+			<!-- line !-->
+			<!--div class="topline"></div!-->
+			<!-- line !-->
+			<!-- header !-->
+			<div id="wrapper" style="position: fixed; z-index: 999">
+				<div id="wrap" style="background: none;">
+					<!-- logo !-->
+					<div class="headcolumnp">
+						<div class="logo">
+							<img src="${request.contextPath}/static/image/coombu_logo1.png"
+								width="148" height="38" alt="Coombu" />
+						</div>
+					</div>
+					<!-- logo !-->
+					<!-- header link !-->
+					<h:form id="topbarForm">
+						<div style="padding: 0px 0px 0px 15px; z-index: 2000">
+							<div class="headcolumnp">
+								<div class="pageheadright">
+									<ul id="hmenu">
+
+										<li><h:commandLink action="#{loginBean.doLogout}"
+												value="Logout" ajax="false" /></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</h:form>
+					<!-- header link !-->
+				</div>
+				<div class="clear" />
+			</div>
+			<!-- header !-->
+			<div class="clear" />
+			<!-- line !-->
+			<div id="wrapper"
+				style="background-color: #ff7a19; height: 5px; position: fixed; top: 40px; z-index: 99" />
+			<!-- line !-->
+			<div class="clear" />
+			<!-- tool bar !-->
+
+			<div id="wrapper" style="background-color: #2b2b2b;">
+
+				<ui:insert name="toolbar" />
+				<div class="clear" />
+				<!-- body content !-->
+
+				<ui:insert name="body" />
+
+				<!-- body content !-->
+
+				<div class="clear" />
+				<!--footer !-->
+				<div align="center" id="wrapper"
+					style="height: 225px; background-color: #606060;">
+					<div style="width: 1000px; height: 225px;">
+						<!-- social link !-->
+						<div style="width: 100%; height: 25px;">&#160;</div>
+						<div>
+							<div>
+								<div style="float: left; width: 315px;">&#160;</div>
+								<div style="float: left;">
+									<div style="float: left; width: 75px;">
+										<a href="#1"></a>
+										<div class="rtwt" />
+									</div>
+									<div style="float: left; width: 75px;">
+										<a href="#1"></a>
+										<div class="rfb" />
+									</div>
+									<div style="float: left; width: 75px;">
+										<a href="#1"></a>
+										<div class="rblog" />
+									</div>
+									<div style="float: left; width: 75px;">
+										<a href="#1"></a>
+										<div class="rgit" />
+									</div>
+									<div style="float: left; width: 75px;">
+										<a href="#1"></a>
+										<div class="ryt" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- social link !-->
+						<div class="clear" />
+						<!-- social link !-->
+						<div>
+							<p style="width: 500px; color: #2b2b2b; font-size: 13px;">
+								Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+								accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+								quae.Sed ut perspiciatis unde omnis iste natus error sit
+								voluptatem accusantium doloremque laudantium, totam rem aperiam,
+								eaque ipsa quae.Sed ut perspiciatis unde omnis iste natus error
+								sit voluptatem accusantium doloremque laudantium, totam rem
+								aperiam, eaque ipsa quae.</p>
+						</div>
+						<!-- social link !-->
+					</div>
+				</div>
+				<!--footer !-->
+			</div>
+
+		</div>
+		<!-- main !-->
+	</h:body>
+</f:view>
+</html>

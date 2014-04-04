@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link href="${request.contextPath}/static/css/layout.css"
+		rel="stylesheet" type="text/css" />
+	<link href="${request.contextPath}/static/css/color.css"
+		rel="stylesheet" type="text/css" />
+</h:head>
+<body>
+	<div class="myactivecont">
+		<div style="width: 100%; height: 10px;"></div>
+		<!-- report !-->
+		<div align="left">
+			<!-- date report !-->
+			<div class="reportpage">
+				<h1>Activity Image</h1>
+
+
+				<div style="padding: 10px;">
+					<div style="float: left; padding-bottom: 10px;">
+						<h:graphicImage
+							value="/profile?id=#{showActivity.image.eventSecurityUser.securityUser.userProfile.imageFileName}"
+							width="66" height="69"
+							rendered="#{!empty showActivity.image.eventSecurityUser.securityUser.userProfile.imageFileName}" />
+						<h:graphicImage value="/static/image/anon.jpg" width="66"
+							height="69"
+							rendered="#{empty showActivity.image.eventSecurityUser.securityUser.userProfile.imageFileName}" />
+					</div>
+					<div style="float: left;">
+						<div class="postheader">#{showActivity.image.eventSecurityUser.securityUser.userProfile.firstName}
+							#{showActivity.image.eventSecurityUser.securityUser.userProfile.lastName}</div>
+						<div class="posttxt">
+							Uploaded
+							<h:outputText value="#{showActivity.image.uploadDateTime}">
+								<f:convertDateTime pattern="MMM dd, yyyy" />
+							</h:outputText>
+						</div>
+					</div>
+				</div>
+				<!-- profile !-->
+				<!-- image !-->
+				<center>
+					<div style="width: 325px; height: auto">
+						<br />
+						<h:graphicImage
+							value="/image?id=#{showActivity.image.fileName}&amp;type=dashboard"
+							width="300" />
+
+					</div>
+					<!-- image !-->
+				</center>
+
+				<!-- comment !-->
+				<div class="posttxt">#{showActivity.image.eventDescription}</div>
+				<!-- comment !-->
+				<!-- count !-->
+				<center>
+					<div class="postcount" style="padding-left: 10px;">
+						<div style="float: left; width: 80%; height: auto;">
+							<div style="float: left; width: 30%; height: auto;">
+
+								<h:graphicImage value="/static/image/like_icon.png" width="24"
+									height="21" alt="Like" title="Like"
+									rendered="#{!dashBean.checkImageLikeExistence(showActivity.image.imageId)}" />
+								<h:graphicImage value="/static/image/like_icon_select.png"
+									width="24" height="21" alt="Unlike" title="Unlike"
+									rendered="#{dashBean.checkImageLikeExistence(showActivity.image.imageId)}" />
+								<h:outputText value="#{showActivity.image.voteCount}" />
+
+							</div>
+							<div style="float: left; width: 20%; height: auto;">
+
+								<h:graphicImage value="/static/image/comment_nrm.png" width="24"
+									height="21" alt="Comment"
+									rendered="#{!dashBean.checkCommentExistence(showActivity.image.imageId)}" />
+								<h:graphicImage value="/static/image/comment_select.png"
+									width="24" height="21" alt="Comment"
+									rendered="#{dashBean.checkCommentExistence(showActivity.image.imageId)}" />
+								#{showActivity.image.commentCount}
+
+							</div>
+							<div style="float: left; width: 20%; height: auto;">
+
+								<h:graphicImage value="/static/image/tag_nrm.png" width="24"
+									height="21" alt="Tag"
+									rendered="#{!dashBean.checkTagExistence(showActivity.image.imageId)}" />
+								<h:graphicImage value="/static/image/tag_nrm_select.png"
+									width="24" height="21" alt="Tag"
+									rendered="#{dashBean.checkTagExistence(showActivity.image.imageId)}" />
+								#{showActivity.image.tagCount}
+
+							</div>
+
+						</div>
+
+					</div>
+					<!-- count !-->
+				</center>
+				<div class="clear"></div>
+				<div style="width: 100%; height: 10px;">&#160;</div>
+				<h:panelGroup id="commentBlock">
+					<h2>Comments</h2>
+					<div style="width: 100%; height: 10px;">&#160;</div>
+
+					<!-- notification !-->
+					<ui:repeat var="comment"
+						value="#{showActivity.image.comments.toArray()}" status="st">
+						<h:panelGroup rendered="#{comment.commentStatusId == 1}">
+							<!-- notification start !-->
+							<div style="background-color: #FFFFFF">
+								<!-- row !-->
+								<div>
+									<div class="notirowlfimg">
+										<h:graphicImage
+											value="/profile?id=#{comment.eventSecurityUser.securityUser.userProfile.imageFileName}"
+											width="35" height="35"
+											rendered="#{!empty comment.eventSecurityUser.securityUser.userProfile.imageFileName}" />
+										<h:graphicImage value="/static/image/anon.jpg" width="35"
+											height="35"
+											rendered="#{comment.eventSecurityUser.securityUser.userProfile.imageFileName}" />
+									</div>
+									<div class="notirowlftxt">
+										<b>#{comment.eventSecurityUser.securityUser.userProfile.firstName}
+										 #{comment.eventSecurityUser.securityUser.userProfile.lastName}
+										</b> <br />
+										<h:outputLink id="#{st}comm" value="#"
+											style="text-decoration: none">
+				    #{comment.shortCommentText}<h:outputText value="..."
+												rendered="#{comment.commentText.length() >= 40}" />
+										</h:outputLink>
+										<p:tooltip for="#{st}comm" value="#{comment.commentText}"
+											showEffect="fade" hideEffect="fade" />
+										<br /> <span style="font-size: .9em; color: #cccccc">
+											<h:outputText value="#{comment.createTimestamp}">
+												<f:converter converterId="org.ocpsoft.PrettyTimeConverter" />
+											</h:outputText>
+										</span>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<!-- row !-->
+								<div class="notiline">&#160;</div>
+							</div>
+							<!-- notification end !-->
+							<div style="width: 100%; height: 10px;">&#160;</div>
+						</h:panelGroup>
+					</ui:repeat>
+				</h:panelGroup>
+				<div class="clear"></div>
+				<div style="width: 100%; height: 10px;">&#160;</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

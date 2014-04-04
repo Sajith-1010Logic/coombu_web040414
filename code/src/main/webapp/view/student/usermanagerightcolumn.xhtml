@@ -1,0 +1,271 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<p:outputPanel autoUpdate="false" id="outputPanel"
+		style="background-color:#FFFFFF;">
+
+		<p:panel id="photos">
+
+			<div class="rightnotification">
+				<div style="width: 100%; height: 15px;"></div>
+				<div class="myactivecont">
+					<div style="width: 100%; height: 10px;"></div>
+					<!-- report !-->
+					<div align="left">
+						<!-- date report !-->
+						<div class="reportpage">
+							<ui:include src="usermanagetable.xhtml"></ui:include>
+						</div>
+					</div>
+
+
+					<div style="width: 100%; height: 15px;"></div>
+					<div style="width: 100%; height: 15px;"></div>
+
+					<b>Note*:</b> User Status Types => <b>ACT</b> - Active, <b>INACT</b>
+					- InActive, <b>PEN</b> - Pending, <b>BLO</b> - Blocked.<br /> User
+					Roles => <b>SR</b> - Student Representative, <b>SM</b> - Student
+					Member. <br />
+
+
+
+					<div style="width: 100%; height: 15px;"></div>
+				</div>
+
+			</div>
+
+		</p:panel>
+
+
+	</p:outputPanel>
+
+
+	<p:dialog id="add_dialog" header="Add Record" widgetVar="addDialog"
+		resizable="false" showEffect="fade" hideEffect="explode"
+		style="background-color:#FFFFFF;">
+		<h:form id="formAdd" prependId="false">
+			<p:ajaxStatus>
+				<f:facet name="start">
+					<p:graphicImage value="/static/image/ajax-loader.gif" />
+				</f:facet>
+				<f:facet name="success">
+					<h:outputText value="" />
+				</f:facet>
+				<f:facet name="error">An error has occurred!</f:facet>
+			</p:ajaxStatus>
+			<p:messages autoUpdate="true" showDetail="true" closable="true" />
+			<p:growl id="growl" showDetail="true" />
+			<h:panelGrid id="add" columns="3" cellpadding="4">
+				<f:facet name="header">
+               Add Details                
+				</f:facet>
+				<h:outputText for="firstname" value="Firstname:" />
+				<p:inputText id="firstname" value="#{userManagementBean.firstname}"
+					required="true" requiredMessage="First Name required"
+					label="Firstname">
+					<f:validateLength minimum="2" />
+					<p:ajax update="msgFirstname" event="keyup" />
+				</p:inputText>
+				<p:message for="firstname" id="msgFirstname" display="icon" />
+
+				<h:outputText for="lastname" value="LastName:" />
+				<p:inputText id="lastname" value="#{userManagementBean.lastname}" />
+				<p:message for="lastname" display="icon" />
+				<h:outputText for="emailaddress" value="EmailAddress:" />
+				<p:inputText id="emailaddress"
+					value="#{userManagementBean.emailaddress}" required="true"
+					label="EmailAddess" requiredMessage="Email required"
+					onchange="copyTheUserName()"
+					validatorMessage="Invalid email Address" onblur="copyTheUserName()">
+					<f:validateRegex
+						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+					<p:ajax update="msgEmail" event="keyup" />
+				</p:inputText>
+				<p:message for="emailaddress" id="msgEmail" display="icon" />
+
+				<h:outputText for="username" value="UserName:" />
+				<p:inputText id="username" value="#{userManagementBean.userName}"
+					required="true" label="UserName" disabled="true"
+					requiredMessage="User Name required">
+					<f:validateLength minimum="2" />
+					<p:ajax update="msgUser" event="keyup" />
+				</p:inputText>
+				<p:message for="username" id="msgUser" display="icon" />
+				<h:outputText for="userrole" value="User Role:" />
+				<h:selectOneMenu id="userrole"
+					value="#{userManagementBean.userRoleId}" required="true"
+					label="UserRole" requiredMessage="User Role required">
+					<f:selectItem itemLabel="Select one!" itemValue="" />
+					<f:selectItems var="role" itemLabel="#{role.roleName}"
+						itemValue="#{role.roleId}" value="#{userManagementBean.roleList}" />
+
+					<p:ajax update="msgRole" event="keyup" />
+				</h:selectOneMenu>
+				<p:message for="userrole" id="msgRole" display="icon" />
+				<p:commandButton id="saveButton" value="Save"
+					update=":userManagementTable"
+					actionListener="#{userManagementBean.createNewUser}"
+					oncomplete="handleAddRequest(xhr, status, args)">
+					<f:param name="topmenu" value="ADMINISTRATION" />
+					<f:param name="botmenu" value="USERS" />
+				</p:commandButton>
+				<p:commandButton value="Cancel" onclick="addDialog.hide()"
+					update="@form" immediate="true">
+					<p:resetInput target="add" />
+				</p:commandButton>
+				<p:commandButton update="@form" widgetVar="update"
+					style="display:none;" />
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
+	<p:dialog id="edit_dialog" header="Edit Record" widgetVar="editDialog"
+		resizable="false" showEffect="fade" hideEffect="explode" modal="true"
+		visible="#{facesContext.postback and facesContext.validationFailed}"
+		style="background-color:#FFFFFF;width:600px">
+
+		<h:form id="formEdit">
+
+
+			<p:ajaxStatus>
+				<f:facet name="start">
+					<p:graphicImage value="/static/image/ajax-loader.gif" />
+				</f:facet>
+				<f:facet name="success">
+					<h:outputText value="" />
+				</f:facet>
+				<f:facet name="error">An error has occurred!</f:facet>
+			</p:ajaxStatus>
+			<h:panelGrid id="edit" columns="3" cellpadding="4">
+
+				<f:facet name="header">
+               Update Details
+               <p:growl id="growl" showDetail="true" />
+				</f:facet>
+
+
+				<h:outputText for="firstname" value="Firstname:" />
+				<p:inputText id="firstname"
+					value="#{userManagementBean.securityUser.securityUser.userProfile.firstName}"
+					required="true" requiredMessage="First Name required"
+					label="Firstname">
+					<f:validateLength minimum="2" />
+					<p:ajax update="msgFirstname" event="keyup" />
+				</p:inputText>
+				<p:message for="firstname" id="msgFirstname" display="icon" />
+
+				<h:outputText for="lastname" value="LastName:" />
+				<p:inputText id="lastname"
+					value="#{userManagementBean.securityUser.securityUser.userProfile.lastName}" />
+				<p:message for="lastname" display="icon" />
+
+				<h:outputText for="userrole" value="User Role:" />
+				<h:selectOneMenu id="userrole"
+					value="#{userManagementBean.userRoleId}" required="true"
+					label="UserRole" requiredMessage="User Role required">
+					<f:selectItem itemLabel="Select one!" itemValue="" />
+					<f:selectItems var="role" itemLabel="#{role.roleName}"
+						itemValue="#{role.roleId}" value="#{userManagementBean.roleList}" />
+
+					<p:ajax update="msgRole" event="keyup" />
+				</h:selectOneMenu>
+				<p:message for="userrole" id="msgRole" display="icon" />
+
+				<h:outputText for="emailaddress" value="EmailAddress:" />
+				<p:inputText id="emailaddress"
+					value="#{userManagementBean.securityUser.securityUser.userProfile.emailAddress}"
+					required="true" label="EmailAddess"
+					requiredMessage="Email required"
+					validatorMessage="Invalid email Address" disabled="true">
+					<f:validateRegex
+						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+					<p:ajax update="msgEmail" event="keyup" />
+				</p:inputText>
+				<p:message for="emailaddress" id="msgEmail" display="icon" />
+
+				<h:outputText for="username" value="UserName:" />
+				<p:inputText id="username"
+					value="#{userManagementBean.securityUser.securityUser.userName}"
+					required="true" label="UserName"
+					requiredMessage="User Name required" disabled="true">
+					<f:validateLength minimum="2" />
+					<p:ajax update="msgUser" event="keyup" />
+				</p:inputText>
+				<p:message for="username" id="msgUser" display="icon" />
+				<p:commandButton id="saveButton" value="Save" update="@form :userManagementTable growl"
+					actionListener="#{userManagementBean.updateUser}"
+					oncomplete="handleLoginRequest(xhr, status, args)" />
+				<p:commandButton value="Cancel" onclick="editDialog.hide()"
+					update="edit" process="@this" immediate="true">
+					<p:resetInput target="edit" />
+				</p:commandButton>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+	<p:dialog id="delete_dialog" header="Delete Record"
+		widgetVar="deleteDialog" resizable="false" showEffect="fade"
+		hideEffect="explode" modal="true"
+		visible="#{facesContext.postback and facesContext.validationFailed}"
+		style="background-color:#FFFFFF;width:600px">
+
+		<h:form id="formDelete">
+			<h:panelGrid id="delete" columns="2" cellpadding="4">
+
+				<f:facet name="header">
+               Are you sure you want to delete this user?
+               <p:growl id="growl" showDetail="true" />
+				</f:facet>
+
+				<p:commandButton id="deleteButton" value="Delete"
+					update="@form :userManagementTable growl"
+					actionListener="#{userManagementBean.deleteUser}"
+					oncomplete="handleDeleteRequest(xhr, status, args)" />
+				<p:commandButton value="Cancel" onclick="deleteDialog.hide()"
+					update="delete" process="@this" immediate="true">
+					<p:resetInput target="delete" />
+				</p:commandButton>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
+	<script type="text/javascript">
+		function handleLoginRequest(xhr, status, args) {
+			if (args.validationFailed) {
+				PF('editDialog').jq.effect("shake", {
+					times : 5
+				}, 100);
+			} else {
+				PF('editDialog').hide();
+			}
+		}
+		function handleDeleteRequest(xhr, status, args) {
+			if (args.validationFailed) {
+				PF('deleteDialog').jq.effect("shake", {
+					times : 5
+				}, 100);
+			} else {
+				PF('deleteDialog').hide();
+			
+			}
+		}
+
+		function handleAddRequest(xhr, status, args) {
+			if (args.validationFailed || !args.cstatus) {
+				PF('addDialog').jq.effect("shake", {
+					times : 5
+				}, 100);
+			} else {
+				PF('addDialog').hide();
+				//update.jq.click();         
+			}
+			console.log("handleRequest Called!");
+		}
+		
+		function copyTheUserName(){
+			$('#username').val($('#emailaddress').val());
+		}		
+	</script>
+	<!-- right column end -->
+</ui:composition>

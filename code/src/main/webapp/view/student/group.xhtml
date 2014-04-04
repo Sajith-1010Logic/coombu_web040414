@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layouts/home.xhtml">
+
+	<ui:define name="body">
+		<ui:include src="onecolumnbody.xhtml"/>
+	</ui:define>
+	<ui:define name="toobar">
+		
+	</ui:define>
+	<ui:define name="unicolumn">
+		<f:event type="preRenderView" listener="#{groupBean.loadData()}" />
+	<h:form>
+		<div style="height:60px;">&#160;</div>
+		<p:messages globalOnly="true"/>
+		<ui:repeat value="#{groupBean.userEvents}" var="userEvent">
+			<!-- single group !start-->
+			<div>
+				<div style="float: left; width: 20%; height: auto;">
+					<div
+						style="width: 200px; height: 200px; border: 1px solid #dbdbdb; text-align: center; color: #0080c2; font-size: 25px; font-weight: bold;">
+						<div style="padding: 60px 0px 0px 0px;">
+							GROUP<br /> LOGO
+						</div>
+					</div>
+				</div>
+				<div style="float: left; width: 80%; height: auto;">
+					<div style="padding-left: 15px;">
+						<p class="grouppageheader">#{userEvent.event.eventName}</p>
+						<p class="grouppagetxt">Sed ut perspiciatis unde omnis iste
+							natus error sit voluptatem accusantium doloremque laudantium,
+							totam rem aperiam, eaque ipsa quae.Sed ut perspiciatis unde omnis
+							iste natus error sit voluptatem accusantium doloremque
+							laudantium, totam rem aperiam, eaque ipsa quae.Sed ut
+							perspiciatis unde omnis iste natus error sit voluptatem
+							accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+							quae.</p>
+
+						<p style="color: red; font-weight: bolder;">
+							<h:panelGroup rendered="#{userEvent.userStatusTypeId == 1}">
+							<p:commandLink	action="#{dashBean.loadData(userEvent.event.eventId,'LATEST')}" styleClass="grouppageviewmore" ajax="false" rendered="#{groupBean.isUserEventValid(userEvent) and groupBean.isScheduleValid(userEvent)}">
+								<f:param name="botmenu" value="LATEST" />
+								<f:param name="topmenu" value="PHOTOS" />
+								<h:outputText value="View More..."/>								
+							</p:commandLink>
+							&#160;&#160;&#160;&#160;							
+							<p:commandButton action="#{groupBean.inactivate(userEvent)}" value="Inactivate" update="@form" ajax="false" styleClass="profilebut" rendered="#{groupBean.isUserEventValid(userEvent) and groupBean.isScheduleValid(userEvent)}"/>
+							</h:panelGroup>
+							<h:outputText value="The schedule for this group has not been opened." rendered="#{!groupBean.isScheduleValid(userEvent)}"/>
+							<ui:fragment rendered="#{userEvent.userStatusTypeId == 2}">
+								 You are inactive in this group. <p:commandButton actionListener="#{groupBean.activate(userEvent)}" value="Activate" update="@form" ajax="false" styleClass="profilebut"/> 
+							</ui:fragment>
+							<h:outputText value="You have been removed from this group" rendered="#{userEvent.userStatusTypeId == 3}"/>
+							<ui:fragment rendered="#{userEvent.userStatusTypeId == 4}">
+								<h:outputText value="Your registration is pending"/><br/>
+									<h:form>
+									<p:messages />
+									<p:outputLabel for="accept" value="Accept terms and conditions:" styleClass="grouppagetxt"/>&#160;&#160;&#160;
+										<p:selectBooleanCheckbox required="true" id="accept"	value="#{groupBean.acceptTC}" tabindex="1"
+										requiredMessage="Terms and Conditions must be accepted"/><P/>
+										<p:commandButton type="submit" id="login" tabindex="2"
+											action="#{groupBean.confirmRegister(userEvent)}" value="Accept"
+											ajax="false" class="profilebut" />
+											</h:form>
+							</ui:fragment>
+							<h:outputText value="You are blocked from the group" rendered="#{userEvent.userStatusTypeId == 5}"/>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="clear" />
+				<div style="width: 100%; height: 25px;">&#160;</div>
+				<!-- single group !-->
+				<div style="width: 100%; height: 1px; background-color: #dbdbdb;">&#160;</div>
+				<div style="width: 100%; height: 25px;">&#160;</div>
+				<!-- end single group -->
+
+		</ui:repeat>
+	</h:form>
+	</ui:define>
+</ui:composition>

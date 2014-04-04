@@ -1,0 +1,20 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<div class="rightnotification">
+<h:form prependId="false" id="albumViewForm">
+<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />  
+	<div class="myactivecont">
+		<div  style="width:100%">
+			<p class="reportpageheader">View Album</p>
+		</div>
+		<p:galleria value="#{photoBookBean.albumImage}" var="image" panelWidth="700" panelHeight="600" showCaption="true">  
+    <p:graphicImage value="/image?id=#{image.imageName.fileName}&amp;type=lightbox" alt="Selected images for Album." title="#{photoBookBean.albumName}"/>  
+</p:galleria>  
+		</div>
+        </h:form>
+</div>
+</ui:composition>

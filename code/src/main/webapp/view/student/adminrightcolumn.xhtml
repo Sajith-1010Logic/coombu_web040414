@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<!-- right column start -->
+	<!--  dashform form start -->
+	<h:form id="dashform">
+		<p:growl id="growl" />
+	
+		<p:outputPanel autoUpdate="false" id="outputPanel">
+			<!-- photos panel start -->
+			<p:panel id="photos">
+				<!-- right notification start !-->
+				<div class="rightnotification">
+					<div style="width: 100%; height: 20px;">&#160;</div>
+					<div>
+						<!-- right side left start !-->
+						<div class="post">
+							<ui:include src="adminpost.xhtml">
+								<ui:param name="rowmodulo" value="0" />
+							</ui:include>
+						</div>
+						<!-- right dide left end !-->
+						<div class="rightpostsp">&#160;</div>
+						<!-- right side left start !-->
+						<div class="post">
+							<ui:include src="admincomment.xhtml">
+								<ui:param name="rowmodulo" value="1" />
+							</ui:include>
+						</div>
+						<!-- right dide left end !-->
+					</div>
+				</div>
+				<!-- right notification end !-->
+			</p:panel>
+			<!-- photos panel end -->
+
+			<!-- panelGroup pagination start -->
+			<h:panelGroup style="font-size:0.7em;" id="pagination" rendered="#{adminBean.totalPages >10}">
+				<h:outputText
+					value="Page #{adminBean.currentPage} / #{adminBean.totalPages}" />
+			&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+			<p:commandButton value="first" action="#{adminBean.pageFirst}"
+					disabled="#{adminBean.firstRow == 0}" update="@form" />&#160;&#160;&#160;
+        	<p:commandButton value="prev"
+					action="#{adminBean.pagePrevious}"
+					disabled="#{adminBean.firstRow == 0}" update="@form" />&#160;&#160;&#160;     
+         	<ui:repeat value="#{adminBean.pages}" var="page"
+					varStatus="st">
+					<p:commandLink value="${page}" actionListener="#{adminBean.page}"
+						rendered="#{page != adminBean.currentPage}" update="@form" />
+					<h:outputText value="#{page}" escape="false"
+						rendered="#{page == adminBean.currentPage}" update="@form" />
+				&#160;&#160;&#160;
+			</ui:repeat>
+				<p:commandButton value="next" action="#{adminBean.pageNext}"
+					disabled="#{adminBean.firstRow + adminBean.rowsPerPage >= adminBean.totalRows}"
+					update="@form" />&#160;&#160;&#160;
+        	<p:commandButton value="last" action="#{adminBean.pageLast}"
+					disabled="#{adminBean.firstRow + adminBean.rowsPerPage >= adminBean.totalRows}"
+					update="@form" />
+			</h:panelGroup> 
+			<!-- panelGroup pagination end -->
+		</p:outputPanel>
+		<!-- outputPanel end -->
+
+<p:confirmDialog global="true" showEffect="fade" hideEffect="explode"  style="background-color:#FFFFFF">  
+        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="dashform"/>  
+        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+    </p:confirmDialog>  
+
+	</h:form>
+	<!-- right column end -->
+	<script type="text/javascript">
+	function handleDeleteRequest() {
+			
+				window.location.reload();
+			
+		}
+      
+	</script>
+	
+</ui:composition>

@@ -1,0 +1,218 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<style type="text/css">
+		#photos_content{ background:none;}
+		.ui-panel.ui-widget.ui-widget-content {background:none;}
+	</style>
+	<!-- right column start -->
+	<!--  dashform form start -->
+	<h:outputScript library="primefaces" name="jquery/jquery.js"></h:outputScript>
+	<h:outputScript library="primefaces" name="jquery/jquery-plugins.js"></h:outputScript>
+	<h:form prependId="false" id="dashform">
+		<p:growl id="growl" />
+		<!-- outputPanel start -->
+		<p:outputPanel autoUpdate="false" id="outputPanel">
+			<!-- photos panel start -->
+			<p:panel id="photos">
+				<!-- right notification start !-->
+				<div class="rightnotification" style="width: 73%">
+					<div style="width: 100%; height: 20px;">&#160;</div>
+					<div>
+						<!-- right dide left start !-->
+						<div class="post" style="width: 48%; margin: 0px 3px 10px 0px;">
+							<ui:include src="post.xhtml">
+								<ui:param name="rowmodulo" value="0" />
+							</ui:include>
+						</div>
+						<!-- right dide left end !-->
+						<div class="rightpostsp">&#160;</div>
+						<!-- right dide left start !-->
+						<div class="post" style="width: 48%; margin: 0px 3px 10px 0px;">
+							<ui:include src="post.xhtml">
+								<ui:param name="rowmodulo" value="1" />
+							</ui:include>
+						</div>
+						<!-- right dide left end !-->
+					</div>
+				</div>
+				<!-- right notification end !-->
+			</p:panel>
+
+			<!-- panelGroup pagination start -->
+			<h:panelGroup style="font-size:0.7em;" id="pagination0"
+				rendered="#{dashBean.totalPages &lt;= 0}">
+				<h:outputText
+					value="You can be the first person to upload images, go ahead, have fun!" />
+			</h:panelGroup>
+			<h:panelGroup style="font-size:0.7em;" id="pagination"
+				rendered="#{dashBean.totalPages > 0}">
+				<h:outputText
+					value="Page #{dashBean.currentPage} / #{dashBean.totalPages}" />
+			&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+			<p:commandButton value="first" action="#{dashBean.pageFirst}"
+					disabled="#{dashBean.firstRow == 0}" update="@form"
+					immediate="true" />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+        	<p:commandButton value="prev" action="#{dashBean.pagePrevious}"
+					immediate="true" disabled="#{dashBean.firstRow == 0}"
+					update="@form" />&#160;&#160;&#160;&#160;&#160;&#160;     
+         	<ui:repeat value="#{dashBean.pages}" var="page" varStatus="st">
+					<p:commandLink value="${page}" actionListener="#{dashBean.page}"
+						immediate="true" rendered="#{page != dashBean.currentPage}"
+						update="@form" />
+					<h:outputText value="#{page}" escape="false"
+						rendered="#{page == dashBean.currentPage}" update="@form" />
+				&#160;&#160;&#160;&#160;&#160;&#160;
+			</ui:repeat>
+				<p:commandButton value="next" action="#{dashBean.pageNext}"
+					immediate="true"
+					disabled="#{dashBean.firstRow + dashBean.rowsPerPage >= dashBean.totalRows}"
+					update="@form" />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;
+        	<p:commandButton value="last" action="#{dashBean.pageLast}"
+					disabled="#{dashBean.firstRow + dashBean.rowsPerPage >= dashBean.totalRows}"
+					update="@form" />
+			</h:panelGroup>
+			<!-- panelGroup pagination end -->
+		</p:outputPanel>
+		<!-- outputPanel end -->
+		<!-- comment Dialog start -->
+		<p:dialog id="postCommentDlg" width="300px" height="230px"
+			appendToBody="false" widgetVar="wgtCommentDialog" showEffect="fade"
+			hideEffect="explode" resizable="false" modal="true"
+			header="Add Comment" style="background-color:#FFFFFF">
+			<p:panel style="background-color: #FFFFFF">
+				<p:messages />
+				<p:inputTextarea class="cmttextarea" id="cmid" maxlength="250"
+					style="margin: 2px 0px; width: 220px; height: 120px;border: 1px solid #dbdbdb;"
+					value="#{dashBean.commentText}" />
+				<br />
+				<br />
+				<div align="right" style="padding-right: 25px;">
+					<p:commandLink actionListener="#{dashBean.addNewComment()}" process="postCommentDlg"
+						class="cmtshare" value="Share" update="postCommentDlg @(.commentStyle)" />
+				</div>
+			</p:panel>
+		</p:dialog>
+		<!--  comment Dialog end -->
+		<!-- tag Dialog start -->
+		<p:dialog id="tagDlg" width="300px" height="400px"
+			appendToBody="false" widgetVar="wgtTagDialog" showEffect="fade"
+			hideEffect="explode" resizable="false" modal="true"
+			header="Tag a friend" dynamic="true" style="background-color:#FFFFFF">
+			<p:ajaxStatus>
+				<f:facet name="start"><p:graphicImage value="/static/image/ajax-loader.gif"/></f:facet>
+				<f:facet name="success">
+					<h:outputText value="" />
+				</f:facet>
+				<f:facet name="error">An error has occurred!</f:facet>
+			</p:ajaxStatus>
+			<p:panel style="background-color: #FFFFFF" id="refreshPanel">
+				<p:selectManyMenu id="userId" value="#{dashBean.taggedUserIds}"
+					var="user" showCheckbox="true"
+					converter="omnifaces.SelectItemsConverter">
+					<f:selectItems value="#{dashBean.currentEventUsers}" var="c"
+						itemLabel="#{c.securityUser.userProfile.firstName} #{c.securityUser.userProfile.lastName} "
+						itemValue="#{c}" />
+					<p:column>
+						&#160;&#160;&#160;&#160;
+						<p:graphicImage
+							value="/profile?id=#{user.securityUser.userProfile.imageFileName}"
+							width="35" height="35"
+							rendered="#{!empty user.securityUser.userProfile.imageFileName}" />
+						<p:graphicImage value="/static/image/anon.jpg" width="35"
+							height="35"
+							rendered="#{empty user.securityUser.userProfile.imageFileName}" />
+					</p:column>
+					<p:column>
+						#{user.securityUser.userProfile.firstName} #{user.securityUser.userProfile.lastName}
+					</p:column>
+					<p:column>
+						<h:outputText
+							value="#{dashBean.printTaggedUser(user.eventSecurityUserId)}"
+							rendered="false" />
+						<h:graphicImage value="/static/image/tag_nrm_select.png"
+							width="24" height="21" alt="Tag"
+							rendered="#{dashBean.printTaggedUser(user.eventSecurityUserId) eq 'tagged'}" />
+					</p:column>
+					<p:row>
+						<hr />
+					</p:row>
+				</p:selectManyMenu>
+				<br />
+				<br />
+				<div align="right" style="padding-right: 25px;">
+					<p:commandLink actionListener="#{dashBean.addTag()}"
+						rendered="#{dashBean.userAuthenticatedToTag}" class="cmtshare"
+						value="Tag" update="tagDlg dashform" />
+						<p>&#160;</p>
+				</div>
+			</p:panel>
+		</p:dialog>
+		<!-- tag Dialog end -->
+		<!-- flag Dialog start -->
+		<p:dialog id="flagDlg" width="300px" height="230px"
+			appendToBody="false" widgetVar="wgtFlagDialog" showEffect="fade"
+			hideEffect="explode" resizable="false" modal="true"
+			header="Flag inappropriate photo" style="background-color:#FFFFFF">
+			<p:ajaxStatus>
+				<f:facet name="start"><p:graphicImage value="/static/image/ajax-loader.gif"/>
+							</f:facet>
+				<f:facet name="success">
+					<h:outputText value="" />
+				</f:facet>
+				<f:facet name="error">An error has occurred!</f:facet>
+			</p:ajaxStatus>
+			<p:panel style="background-color: #FFFFFF">
+				<p:messages/>
+				<p:selectOneMenu id="reasonId" value="#{dashBean.flagReasonId}">
+					<f:selectItem itemLabel="Select One" itemValue=""/>
+					<f:selectItems value="#{referenceData.getRequestReasonList()}"
+						var="u" itemLabel="#{u.requestReasonDescription}"
+						itemValue="#{u.requestReasonId}" />
+				</p:selectOneMenu>
+				<p>&#160;</p>
+				<p:inputTextarea class="cmttextarea" maxlength="250"
+					style="margin: 2px 0px; width: 220px; height: 70px;"
+					value="#{dashBean.flagText}" />
+				<br />
+				<br />
+				<div align="right" style="padding-right: 25px;">
+					<p:commandLink actionListener="#{dashBean.flag()}" class="cmtshare" process="flagDlg"
+						 value="Flag" update="flagDlg @form:dashform" />
+				</div>
+			</p:panel>
+			<p>&#160;</p>
+			<p>&#160;</p>
+		</p:dialog>
+		
+
+		<script type="text/javascript">
+	function adjustPositionning(sourceElement, id) {
+	    var x = sourceElement.offsetLeft;
+	    var y = sourceElement.offsetTop;
+	    var viewPortHeight= $(window).height();
+	    if ( viewPortHeight - y &lt;= 200)
+	    {
+	    	y = viewPortHeight - 200;
+	    }
+	    id.css({left: x});
+	    id.css({top: y});
+	//    $('#postCommentDlg').css({left: x});
+	//    $('#postCommentDlg').css({top: y});
+	}
+
+function handleCommentDlg(xhr, status, args, wgtCommentDialog)
+{
+	if (args.validationFailed) {
+		
+		PF('commentDialog').show();
+		} 
+}
+</script>
+	</h:form>
+	<!-- right column end -->
+
+</ui:composition>

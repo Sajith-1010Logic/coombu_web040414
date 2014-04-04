@@ -1,0 +1,158 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<link href="${request.contextPath}/static/css/bootstrap.css"
+		rel="stylesheet" type="text/css"></link>
+	<link href="${request.contextPath}/static/css/layout.css"
+		rel="stylesheet" type="text/css"></link>
+	<link href="${request.contextPath}/static/css/datepicker.css"
+		rel="stylesheet" type="text/css"></link>
+	<p:growl autoUpdate="true" id="growl"></p:growl>
+
+
+	<h:form id="scheduleForm" prependId="false">
+		<div class="rightnotification">
+			<div class="clear"></div>
+			<div style="width: 100%; height: 15px;"></div>
+			<div class="myactivecont">
+				<div style="width: 100%; height: 10px;"></div>
+				<!-- report !-->
+				<div align="left">
+					<!-- date report !-->
+					<div class="reportpage" align="center">
+						<h2>Scheduling</h2>
+						<table cellpadding="10" cellspacing="10">
+							<tr style="height: 30px;">
+								<td class="labels">Upload Image Start Date: </td>
+								<td><input type="text" value="25-02-2014" id="dp1" /></td>
+							</tr>
+							<tr style="height: 30px;">
+								<td class="labels">Upload Image End Date:</td>
+								<td><input type="text" value="25-02-2014" id="dp2" /></td>
+							</tr>
+							<tr style="height: 30px;">
+								<td class="labels">Picture Available Start Date:</td>
+								<td><input type="text" value="25-02-2014" id="dp3" /></td>
+							</tr>
+							<tr style="height: 30px;">
+								<td class="labels">Picture Available End Date:</td>
+								<td><input type="text" value="25-02-2014" id="dp4" /></td>
+							</tr>
+							<tr style="height: 30px;">
+								<td class="labels">Book Start Date:</td>
+								<td><input type="text" value="25-02-2014" id="dp5" /></td>
+							</tr>
+							<tr style="height: 30px;">
+								<td class="labels">Book End Date:</td>
+								<td><input type="text" value="25-02-2014" id="dp6" /></td>
+							</tr>
+							<tr style="height: 30px;">
+								<td class="labels">Picture Availability Schedule Message:</td>
+								<td><h:inputTextarea
+										value="#{schedule.pictureAvailableScheduleMsg}" id="pmsg" /></td>
+							</tr>
+							<tr style="height: 30px;">
+								<td class="labels">Upload Picture Schedule Message:</td>
+								<td><h:inputTextarea
+										value="#{schedule.uploadPicutureScheduleMsg}" id="upmsg" /></td>
+							</tr>
+							<tr style="height: 30px;">
+								<td class="labels">Book Schedule Message:</td>
+								<td><h:inputTextarea value="#{schedule.bookScheduleMsg}"
+										id="bmsg" /></td>
+							</tr>
+						</table>
+						<div class="clear"></div>
+						<div style="width: 100%; height: 30px;"></div>
+						<div style="width: 100%; padding-left: 300px;">
+							<div style="float: left; width: 100px;">
+								<a href="#1" class="reportpagebut" onclick="doSave()">Save</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div style="width: 100%; height: 50px;"></div>
+			</div>
+
+		</div>
+
+
+		<h:inputHidden value="#{schedule.pictureAvailableStartDate}"
+			id="pictureStartDate" required="true"
+			requiredMessage="Select the date for picture available start date!" />
+		<h:inputHidden value="#{schedule.pictureAvailableEndDate}"
+			id="pictureEndDate" required="true"
+			requiredMessage="Select the date for picture available end date!" />
+		<h:inputHidden value="#{schedule.uploadImageStartDate}"
+			id="uploadStartDate" required="true"
+			requiredMessage="Select the date for upload image start date!" />
+		<h:inputHidden value="#{schedule.uploadImageEndDate}"
+			id="uploadEndDate" required="true"
+			requiredMessage="Select the date for upload image date!" />
+		<h:inputHidden value="#{schedule.bookStartDate}" id="bookStartDate"
+			required="true"
+			requiredMessage="Select the date for book start date!" />
+		<h:inputHidden value="#{schedule.bookEndDate}" id="bookEndDate"
+			required="true" requiredMessage="Select the date for book end date!" />
+
+		<p:commandButton widgetVar="doSaveBtn" update="scheduleForm"
+			style="display:none;" action="#{schedule.saveOrUpdateSchedule()}"
+			ajax="false">
+			<f:param name="botmenu" value="SCHEDULING"></f:param>
+		</p:commandButton>
+	</h:form>
+
+	<script src="${request.contextPath}/static/js/bootstrap-datepicker.js"></script>
+	<script>
+	
+		var currentDate=new Date();
+			
+		$('#dp2').val(currentDate.getDate()+"-"+(currentDate.getMonth()+1)+"-"+currentDate.getFullYear());
+		
+		var date=new Date();
+		$('#dp1').datepicker({
+			format: 'dd-mm-yyyy',
+			startDate: '25-02-2014'
+		});
+
+		$('#dp2').datepicker({
+			format: 'dd-mm-yyyy',
+			startDate: date 	
+		});
+		$('#dp3').datepicker({
+			format: 'dd-mm-yyyy',
+			startDate: '25-02-2014'
+		});
+
+		$('#dp4').datepicker({
+			format: 'dd-mm-yyyy',
+			startDate: date 	
+		});
+		$('#dp5').datepicker({
+			format: 'dd-mm-yyyy',
+			startDate: '25-02-2014'
+		});
+
+		$('#dp6').datepicker({
+			format: 'dd-mm-yyyy',
+			startDate: date 	
+		});
+
+
+		function doSave(){
+			$('#pictureStartDate').val($('#dp1').val());
+			$('#pictureEndDate').val($('#dp2').val());
+			$('#uploadStartDate').val($('#dp3').val());
+			$('#uploadEndDate').val($('#dp4').val());
+			$('#bookStartDate').val($('#dp5').val());
+			$('#bookEndDate').val($('#dp6').val());
+
+			doSaveBtn.jq.click();
+		}
+	</script>
+</ui:composition>
+

@@ -1,0 +1,266 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="/template.xhtml">
+
+
+	<link href="${request.contextPath}/static/css/collreg.css"
+		rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+	<ui:define name="content">
+
+
+		<div id="login-container" class="animation-fadeIn">
+
+			<div class="login-title text-center">
+				<a><img src="static/image/logo.png" alt=""
+					style="width: 204px; height: 51px; margin-left: 50px;" /></a>
+			</div>
+			<div id="messages">
+				<p:growl autoUpdate="true" redisplay="false" />
+
+				<f:event listener="#{loginBean.updateMessages(true)}"
+					type="preRenderView" />
+				<f:view afterPhase="#{loginBean.removeErrorAfterRender()}" />
+
+			</div>
+			<div class="block remove-margin">
+				<h:form id="loginForm" prependId="false"
+					class="form-horizontal form-bordered form-control-borderless">
+
+					<ul class="login_form">
+						<li><i class="gi gi-envelope"></i> <p:inputText type="text" tabindex="1"
+								required="true" requiredMessage="User ID is required"
+								id="j_username" name="login-email" class="form-control input-lg"
+								placeholder="Email Address"></p:inputText></li>
+						<li><span><i class="gi gi-asterisk"></i></span> <p:password
+								id="j_password" required="true" tabindex="2"
+								requiredMessage="Password is required" placeholder="password"
+								class="form-control input-lg">
+							</p:password></li>
+
+						<li class="pull-right"><p:commandLink type="submit" tabindex="3"
+								update="@form" id="login" action="#{loginBean.doLogin()}"
+								value="Login" ajax="false" class="btn btn-sm btn-primary" /></li>
+						<li>
+							<div style="margin-top: 70px;">
+								<a href="forgotpassword.xhtml" tabindex="4"
+									style="text-decoration: none; color: rgb(92, 86, 86); font-size: small;">Forgot
+									your password?</a>
+							</div>
+						</li>
+						<li class="pull-right"><p:commandLink type="submit" tabindex="5"
+								oncomplete="PF('addDialog').show()"
+								style="float:right; margin-top: -18px; text-decoration: none; color: rgb(92, 86, 86); font-size: small;"
+								immediate="true" update="@form" id="SignUp" value="Signup"
+								ajax="true" /></li>
+
+					</ul>
+
+				</h:form>
+			</div>
+
+			<p:dialog id="add_dialog" header="Add College" widgetVar="addDialog"
+				resizable="false" showEffect="fade" hideEffect="explode"
+				style="background-color:#FFFFFF;">
+				<h:form id="formAdd" enctype="multipart/form-data" prependId="false">
+
+
+
+					<h:panelGrid id="add" columns="3" cellpadding="4">
+
+						<h:outputText for="firstname" styleClass="collFormReg"
+							value="Firstname:" />
+						<p:inputText id="firstname"
+							validatorMessage="FirstName should be minimum two characters"
+							value="#{collegeManagementBean.firstname}" required="true"
+							requiredMessage="First Name required" label="Firstname">
+							<f:validateLength minimum="2" />
+							<p:ajax update="msgFirstname" event="keyup" />
+						</p:inputText>
+						<h:message for="firstname" showDetail="false" id="msgFirstname" />
+
+
+						<h:outputText for="lastname" styleClass="collFormReg"
+							value="LastName:" />
+						<p:inputText styleClass="collegeeletopprops" id="lastname"
+							validatorMessage="LastName should be minimum two characters"
+							required="true" requiredMessage="Last Name required"
+							value="#{collegeManagementBean.lastname}">
+							<f:validateLength minimum="2" />
+							<p:ajax update="msgLastname" event="keyup" />
+						</p:inputText>
+						<h:message for="lastname" id="msgLastname" showDetail="false" />
+
+						<h:outputText styleClass="collFormReg" for="collegename"
+							value="College Name:" />
+						<p:inputText styleClass="collegeeletopprops" id="collegename"
+							validatorMessage="CollegeName should be minimum two characters"
+							value="#{collegeManagementBean.collegename}" required="true"
+							requiredMessage="College Name required" label="collegename">
+							<f:validateLength minimum="2" />
+							<p:ajax update="msgcollegename" event="keyup" />
+						</p:inputText>
+						<h:message for="collegename" showDetail="false"
+							id="msgcollegename" />
+
+						<h:outputText styleClass="collFormReg" for="address1"
+							value="Address1:" />
+						<p:inputText styleClass="collegeeletopprops" id="address1"
+							validatorMessage="Address1 should be minimum two characters"
+							value="#{collegeManagementBean.address1}" required="true"
+							requiredMessage="Address1 required" label="address1">
+							<f:validateLength minimum="2" />
+							<p:ajax update="msgaddress1" event="keyup" />
+						</p:inputText>
+						<h:message for="address1" showDetail="false" id="msgaddress1" />
+
+
+						<h:outputText styleClass="collFormReg" for="address2"
+							value="Address2:" />
+						<p:inputText styleClass="collegeeletopprops" id="address2"
+							validatorMessage="Address2 should be minimum two characters"
+							value="#{collegeManagementBean.address2}" required="true"
+							requiredMessage="Address2 required" label="address2">
+							<f:validateLength minimum="2" />
+							<p:ajax update="msgaddress2" event="keyup" />
+						</p:inputText>
+						<h:message for="address2" id="msgaddress2" showDetail="false" />
+
+
+
+						<h:outputText styleClass="collFormReg" for="city" value="City :" />
+						<p:inputText styleClass="collegeeletopprops" id="city"
+							validatorMessage="City should be minimum two characters"
+							value="#{collegeManagementBean.city}" required="true"
+							requiredMessage="City required" label="city">
+							<f:validateLength minimum="2" />
+							<p:ajax update="msgcity" event="keyup" />
+						</p:inputText>
+						<h:message for="city" id="msgcity" showDetail="false" />
+
+						<h:outputText styleClass="collFormReg" for="state" value="State :" />
+						<p:inputText styleClass="collegeeletopprops" id="state"
+							validatorMessage="State should be minimum two characters"
+							value="#{collegeManagementBean.state}" required="true"
+							requiredMessage="State required" label="state">
+							<f:validateLength minimum="2" />
+							<p:ajax update="msgstate" event="keyup" />
+						</p:inputText>
+						<h:message for="state" id="msgstate" showDetail="false" />
+
+
+
+
+						<h:outputText styleClass="collFormReg" for="country"
+							value="Country:" />
+						<h:selectOneMenu styleClass="collegeeletopprops" id="country"
+							style="width: 137px;  margin-left: -5px; "
+							value="#{collegeManagementBean.country}" required="true"
+							label="Country" requiredMessage="Country required">
+
+							<f:selectItem itemLabel="Select one" />
+							<f:selectItems var="country" itemLabel="#{country.countryName}"
+								itemValue="#{country.countryId}"
+								value="#{collegeManagementBean.countryList}" />
+						</h:selectOneMenu>
+						<h:message for="country" id="msgcountry" showDetail="false" />
+
+						<h:outputText styleClass="collFormReg" for="primaryno"
+							value="Primary Contact No :" />
+						<p:inputText styleClass="collegeeletopprops" id="primaryno" maxlength="10"
+							validatorMessage="Primary no is required and of 10 digits."
+							value="#{collegeManagementBean.primaryno}" required="true"
+							requiredMessage="Primary contact  no required" label="primaryno">
+							<f:validateRegex pattern="[0-9]+" />
+							<f:validateLength minimum="10" />
+							<p:ajax update="msgprimaryno" event="keyup" />
+						</p:inputText>
+						<h:message for="primaryno" id="msgprimaryno" showDetail="false" />
+
+
+
+						<h:outputText styleClass="collFormReg" for="secondaryno"
+							value="Secondary Contact  No :" />
+						<p:inputText styleClass="collegeeletopprops" id="secondaryno" maxlength="10"
+							validatorMessage="Secondary no is required and of 10 digits."
+							value="#{collegeManagementBean.secondaryno}" required="true"
+							requiredMessage="Secondary contact no required"
+							label="secondaryno">
+							<f:validateRegex pattern="[0-9]+" />
+							<f:validateLength minimum="10" />
+							<p:ajax update="msgsecondaryno" event="keyup" />
+						</p:inputText>
+						<h:message for="secondaryno" id="msgsecondaryno"
+							showDetail="false" />
+
+
+						<h:outputText styleClass="collFormReg" for="email"
+							value="EmailAddress:" />
+						<p:inputText styleClass="collegeeletopprops" id="email"
+							value="#{collegeManagementBean.email}" required="true"
+							label="EmailAddess" requiredMessage="Email address required"
+							onchange="copyTheUserName()"
+							validatorMessage="Invalid email Address"
+							onblur="copyTheUserName()">
+							<f:validateRegex
+								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+							<p:ajax update="msgEmail" event="keyup" />
+						</p:inputText>
+						<h:message for="email" id="msgEmail" showDetail="false" />
+
+						<h:outputText styleClass="collFormReg " for="collegeyear"
+							value="College year:" />
+
+						<p:inputText styleClass="collegeeletopprops" id="collegeyear"
+							validatorMessage="Year is required."
+							value="#{collegeManagementBean.collegeyear}" required="true"
+							requiredMessage="College year required" label="collegeyear">
+							<f:validateLength minimum="4" />
+							<p:ajax update="msgcollegeyear" event="keyup" />
+						</p:inputText>
+						<h:message for="collegeyear" id="msgcollegeyear"
+							showDetail="false" />
+
+
+						<h:outputText styleClass="collFormReg" for="availabledate"
+							value="Available Date:" />
+						<p:inputText styleClass="collegeeletopprops" id="availabledate"
+							validatorMessage="Available Data is required."
+							value="#{collegeManagementBean.availabledate}" required="true"
+							requiredMessage="Available date required" label="availabledate">
+							<f:convertDateTime pattern="d-M-yyyy" />
+
+							<p:ajax update="msgavailabledate" event="keyup" />
+						</p:inputText>
+						<h:message for="availabledate" id="msgavailabledate"
+							showDetail="false" />
+						<h:outputText styleClass="collFormReg" for="scannedidpicture"
+							value="Scanned Id Picture:" />
+
+
+						<p:fileUpload styleClass="collegeeletopprops"
+							fileUploadListener="#{collegeManagementBean.upload}"
+							allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="100000"
+							description="Select Images" />
+					</h:panelGrid>
+
+					<p:commandButton update="@form :loginForm" id="saveButton"
+						ajax="true" style="margin-left:auto;margin-right:auto;"
+						oncomplete="PF('addDialog').hide"
+						action="#{collegeManagementBean.createNewCollege}"
+						value="Register">
+
+					</p:commandButton>
+				</h:form>
+			</p:dialog>
+		</div>
+
+	</ui:define>
+</ui:composition>

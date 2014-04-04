@@ -1,0 +1,26 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<div align="left" style="padding: 12px 0px 0px 20px; height: 20px">
+		<h:link outcome="reports.xhtml" value="Login and Logout Activity"
+			styleClass="#{ param['botmenu'] eq 'LOGIN_AND_LOGOUT' ? 'botlink_select' : 'botlink'}">
+			<f:param name="topmenu" value="REPORTS" />
+			<f:param name="botmenu" value="LOGIN_AND_LOGOUT" />
+		</h:link>
+		&#160;&#160;&#160;&#160;&#160;
+		<h:link outcome="reports.xhtml" value="Usage Activity"
+			class="#{ param['botmenu'] eq 'USAGE_ACTIVITY' ? 'botlink_select' : 'botlink'}">
+			<f:param name="topmenu" value="REPORTS" />
+			<f:param name="botmenu" value="USAGE_ACTIVITY" />
+		</h:link>
+		&#160;&#160;&#160;&#160;&#160;
+		<h:link outcome="reports.xhtml" value="User Activity"
+			style="color:white !important;text-decoration: none;"
+			class="#{ param['botmenu'] eq 'USER_ACTIVITY' ? 'botlink_select' : 'botlink'}">
+			<f:param name="topmenu" value="REPORTS" />
+			<f:param name="botmenu" value="USER_ACTIVITY" />
+		</h:link>
+	</div>
+</ui:composition>

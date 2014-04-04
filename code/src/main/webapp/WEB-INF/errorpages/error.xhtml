@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/layouts/standard.xhtml">
+
+	<ui:define name="body">
+		<ui:include src="../../view/student/onecolumnbody.xhtml" />
+	</ui:define>
+	<ui:define name="toobar">
+		<ui:include src="header.xhtml" />
+	</ui:define>
+	<ui:define name="unicolumn">
+				<p:messages id="message" />
+				<table border="0" cellpadding="5" cellspacing="5"	style="color: #7a7a7a; font-size: 13px;">
+					<tr>
+						<th  align="center" class="grouppageheader">System Error</th>
+					</tr>
+					<tr>
+						<td align="center">
+							An error has occured. Please click on the following link and login again: <a href="${request.contextPath}/login.xhtml">Login</a>
+						</td>
+					</tr>
+					<tr><td height="500px">&#160;</td></tr>
+				</table>
+	</ui:define>
+</ui:composition>

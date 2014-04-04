@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+    version="2.2">
+	<application>
+		<el-resolver>
+    		    org.springframework.web.jsf.el.SpringBeanFacesELResolver
+		</el-resolver>
+		
+  	</application>
+  	<factory>
+    	<exception-handler-factory>org.omnifaces.exceptionhandler.FullAjaxExceptionHandlerFactory</exception-handler-factory>
+	</factory>
+  	<validator>
+	    <validator-id>passwordValidator</validator-id>
+    	<validator-class>com.coombu.photobook.presentation.validator.PasswordValidator</validator-class>
+  	</validator>
+  	
+<render-kit>
+    <renderer>
+        <component-family>org.primefaces.component</component-family>
+        <renderer-type>org.primefaces.component.FileUploadRenderer</renderer-type>
+        <renderer-class>com.coombu.primefaces.component.fileupload.CoombuFileUploadRenderer</renderer-class>
+    </renderer>
+</render-kit>
+ 
+</faces-config>

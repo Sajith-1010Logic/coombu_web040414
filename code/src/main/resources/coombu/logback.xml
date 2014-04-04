@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- configuration file for LogBack (slf4J implementation)
+See here for more details: http://gordondickens.com/wordpress/2013/03/27/sawing-through-the-java-loggers/ -->
+<configuration scan="true" scanPeriod="30 seconds">
+
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+    <!-- To enable JMX Management -->
+    <jmxConfigurator/>
+<appender name="FILE" class="ch.qos.logback.core.FileAppender">		
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+      <file>/home/caseopi/coombu_logs/coombutest.log</file>
+      <minIndex>1</minIndex>
+      <maxIndex>10</maxIndex>
+    </rollingPolicy>
+    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      <maxFileSize>50MB</maxFileSize>
+    </triggeringPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d [%X{username}] [%X{sessionId}] %-5level %logger{36} - %msg%n</Pattern>
+		</layout>
+	</appender>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+	<!--<logger name="org.hibernate" level="debug"/> -->
+   <!-- Uncomment and add your logger here:
+    <logger name="org.springframework.samples.service.service" level="debug"/> -->
+    <logger name="org.springframework.security" level="info"/>
+    <logger name="org.hibernate" level="error"/>
+    <logger name="org.hibernate.SQL" level="error"/>
+    <logger name="org.hibernate.type" level="error"/>
+    <logger name="com.coombu" level="debug"/>
+    <root level="debug">
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

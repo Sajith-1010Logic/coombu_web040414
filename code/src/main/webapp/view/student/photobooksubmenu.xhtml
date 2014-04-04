@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<div align="left" style="padding: 12px 0px 0px 20px; height: 20px">
+		<p:commandLink action="photobook.xhtml" ajax="false" value="Create"
+			styleClass="#{ param['botmenu'] eq 'CREATE' ? 'botlink_select' : 'botlink'}"
+			rendered="#{photoBookBean.imageBucket == null}">
+			<f:param name="topmenu" value="PHOTOBOOK" />
+			<f:param name="botmenu" value="CREATE" />
+		</p:commandLink>
+		&#160;&#160;&#160;&#160;&#160;
+		<p:commandLink action="#{photoBookBean.modifyData()}" ajax="false"
+			value="Modify"
+			class="#{ param['botmenu'] eq 'CREATE' ? 'botlink_select' : 'botlink'}"
+			rendered="#{photoBookBean.imageBucket!=null and photoBookBean.imageBucket.getImageStatusType() == 3}">
+			<f:param name="topmenu" value="PHOTOBOOK" />
+			<f:param name="botmenu" value="CREATE" />
+		</p:commandLink>
+		&#160;&#160;&#160;&#160;&#160;
+		<p:commandLink action="#{photoBookBean.viewData()}" ajax="false"
+			value="View"
+			class="#{ param['botmenu'] eq 'CREATE' ? 'botlink_select' : 'botlink'}"
+			rendered="#{photoBookBean.imageBucket!=null and photoBookBean.imageBucket.getImageStatusType() == 5}">
+			<f:param name="topmenu" value="PHOTOBOOK" />
+			<f:param name="botmenu" value="CREATE" />
+		</p:commandLink>
+
+	</div>
+</ui:composition>

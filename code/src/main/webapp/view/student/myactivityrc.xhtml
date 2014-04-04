@@ -1,0 +1,430 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<script src="${request.contextPath}/static/js/jquery.capSlide.js"
+		type="text/javascript" />
+	<script src="${request.contextPath}/static/js/myactivity.js"
+		type="text/javascript" />
+	<script src="${request.contextPath}/static/js/jquery.masonry.min.js"
+		type="text/javascript" />
+
+
+	<style type="text/css">
+.rightnotification {
+	background: #FFF;
+	margin-left: 15px;
+}
+
+.myactivecont {
+	background: #FFF;
+}
+
+.overlay {
+	bottom: 4px !important;
+}
+
+.ic_caption {
+	background-color: rgba(0, 0, 0, 0.3) !important;
+	bottom: 4px !important;
+	top: auto !important;
+}
+
+.ic_container {
+	height: auto !important;
+}
+
+.myactivityimg {
+	background: none !important;
+	width: auto !important;
+	margin: 1px 0px 6px 11px !important;
+	border: 0px none;
+}
+</style>
+	<link href="${request.contextPath}/static/css/mhoverlink.css"
+		rel="stylesheet" type="text/css" />
+	<h:form id="myactivityform" prependId="false">
+		<script type="text/javascript">
+     $(function(){
+   
+       var $container = $('.myactivecont');
+     
+       $container.imagesLoaded( function(){
+         $container.masonry({
+           itemSelector : '.myactivityimg'
+         });
+       });
+     
+     });
+   </script>
+
+
+
+		<script type="text/javascript">
+		
+            $(function() {
+                $("#capslide_img_cont0").capslide({
+                    caption_color	: 'white',
+                    caption_bgcolor	: 'black',
+                    overlay_bgcolor : 'black',
+                    border			: '',
+                    showcaption	    : true
+                });
+				$("#capslide_img_cont1").capslide({
+                    caption_color	: 'white',
+                    caption_bgcolor	: 'black',
+                    overlay_bgcolor : 'black',
+                    border			: '',
+                    showcaption	    : true
+                });
+				$("#capslide_img_cont2").capslide({
+                    caption_color	: 'white',
+                    caption_bgcolor	: 'black',
+                    overlay_bgcolor : 'black',
+                    border			: '',
+                    showcaption	    : true
+                });
+				$("#capslide_img_cont3").capslide({
+                    caption_color	: 'white',
+                    caption_bgcolor	: 'black',
+                    overlay_bgcolor : 'black',
+                    border			: '',
+                    showcaption	    : true
+                });
+				$("#capslide_img_cont4").capslide({
+                    caption_color	: 'white',
+                    caption_bgcolor	: 'black',
+                    overlay_bgcolor : 'black',
+                    border			: '',
+                    showcaption	    : true
+                });
+				$("#capslide_img_cont5").capslide({
+                    caption_color	: 'white',
+                    caption_bgcolor	: 'black',
+                    overlay_bgcolor : 'black',
+                    border			: '',
+                    showcaption	    : true
+                });
+				$("#capslide_img_cont6").capslide({
+                    caption_color	: 'white',
+                    caption_bgcolor	: 'black',
+                    overlay_bgcolor : 'black',
+                    border			: '',
+                    showcaption	    : true
+                });
+				$("#capslide_img_cont7").capslide({
+                    caption_color	: 'white',
+                    caption_bgcolor	: 'black',
+                    overlay_bgcolor : 'black',
+                    border			: '',
+                    showcaption	    : true
+                });
+				$("#capslide_img_cont8").capslide({
+                    caption_color	: 'white',
+                    caption_bgcolor	: 'black',
+                    overlay_bgcolor : 'black',
+                    border			: '',
+                    showcaption	    : true
+                });
+				$("#capslide_img_cont9").capslide({
+                    caption_color	: 'white',
+                    caption_bgcolor	: 'black',
+                    overlay_bgcolor : 'black',
+                    border			: '',
+                    showcaption	    : true
+                });
+				$("#capslide_img_cont10").capslide({
+                    caption_color	: 'white',
+                    caption_bgcolor	: 'black',
+                    overlay_bgcolor : 'black',
+                    border			: '',
+                    showcaption	    : true
+                });
+				$("#capslide_img_cont11").capslide({
+                    caption_color	: 'white',
+                    caption_bgcolor	: 'black',
+                    overlay_bgcolor : 'black',
+                    border			: '',
+                    showcaption	    : true
+                });
+				$("#capslide_img_cont12").capslide({
+                    caption_color	: 'white',
+                    caption_bgcolor	: 'black',
+                    overlay_bgcolor : 'black',
+                    border			: '',
+                    showcaption	    : true
+                });
+				$("#capslide_img_cont13").capslide({
+                    caption_color	: 'white',
+                    caption_bgcolor	: 'black',
+                    overlay_bgcolor : 'black',
+                    border			: '',
+                    showcaption	    : true
+                });$("#capslide_img_cont14").capslide({
+                    caption_color	: 'white',
+                    caption_bgcolor	: 'black',
+                    overlay_bgcolor : 'black',
+                    border			: '',
+                    showcaption	    : true
+                });
+            });
+        </script>
+
+
+		<p:growl id="growl" />
+		<!-- right notification !-->
+		<div style="width: 100%; height: 18px;">&#160;</div>
+		<div class="rightnotification">
+			<div style="width: 100%; height: 10px;">&#160;</div>
+			<h:panelGroup
+				rendered="#{activityBean.imageList eq null or activityBean.imageList.size() eq 0}">
+				<h:outputText value="There are no activities available yet!" />
+				<div style="width: 100%; height: 10px;">&#160;</div>
+			</h:panelGroup>
+			<div class="myactivecont">
+
+				<div style="width: 100%; height: 10px;">&#160;</div>
+
+
+				<ui:repeat value="#{activityBean.imageList}" var="img"
+					varStatus="st">
+					<h:outputText value="#{activityBean.rowStart}"
+						rendered="#{st.index % 3 == 0 || st.first}" escape="false" />
+
+					<div class="myactivityimg" id="image#{st.index}">
+						<!-- img !-->
+						<div id="capslide_img_cont#{st.index}" class="ic_container">
+							<a href="#login_form" id="login_pop"> <h:graphicImage
+									value="/image?id=#{img.fileName}&amp;type=activity"
+									width="225px" />
+
+							</a>
+							<h:commandLink
+								action="#{activityBean.loadTheImage(img.imageId, st.index)}"
+								immediate="true">
+								<div class="overlay" style="display: none;"></div>
+							</h:commandLink>
+							<div class="ic_caption">
+								<div style="padding: 10px 0px 30px 0px; background-color: rgb(49, 49, 49);">
+									<div class="myactivitycount">
+										<p:commandLink
+											actionListener="#{activityBean.addLike(img.imageId)}"
+											update="@this @(#growl)" process="@this"
+											style="text-decoration:none; color:inherit">
+											<h:graphicImage value="/static/image/like_icon.png"
+												width="14" height="14" alt="Like" title="Like"
+												rendered="#{!dashBean.checkImageLikeExistence(img.imageId)}" />
+											<h:graphicImage value="/static/image/like_icon_select.png"
+												width="14" height="14" alt="Unlike" title="Unlike"
+												rendered="#{dashBean.checkImageLikeExistence(img.imageId)}" />
+											<h:outputText value="#{img.voteCount}" />
+										</p:commandLink>
+
+									</div>
+									<div class="myactivitycount1">
+										<p:commandLink style="text-decoration:none; color:inherit"
+											oncomplete="PF('wgtCommentDialog').show()"
+											styleClass="commentStyle"
+											actionListener="#{activityBean.setSelectedImageId(st.index,'comment')}"
+											ajax="true" process="@this">
+											<h:graphicImage value="/static/image/comment_nrm.png"
+												width="14" height="14" alt="Comment"
+												rendered="#{!dashBean.checkCommentExistence(img.imageId)}" />
+											<h:graphicImage value="/static/image/comment_select.png"
+												width="14" height="14" alt="Comment"
+												rendered="#{dashBean.checkCommentExistence(img.imageId)}" />
+											<h:outputText value="#{dashBean.getCommentCount(img)}"
+												styleClass="commentCnt" />
+										</p:commandLink>
+									</div>
+									<div class="myactivitycount1">
+										<p:commandLink oncomplete="PF('wgtTagDialog').show()"
+											style="text-decoration:none; color:inherit"
+											styleClass="tagStyle"
+											actionListener="#{activityBean.setSelectedImageId(st.index, 'tag')}"
+											ajax="true" process="@this" update=":myactivityform:tagDlg">
+											<h:graphicImage value="/static/image/tag_nrm.png" width="14"
+												height="14" alt="Tag"
+												rendered="#{!dashBean.checkTagExistence(img.imageId)}" />
+											<h:graphicImage value="/static/image/tag_nrm_select.png"
+												width="14" height="14" alt="Tag"
+												rendered="#{dashBean.checkTagExistence(img.imageId)}" />
+											<h:outputText value="#{img.tagCount}" styleClass="tagCnt" />
+										</p:commandLink>
+									</div>
+
+									<div class="myactivitycount1">
+										<p:commandLink style="text-decoration:none; color:inherit"
+											oncomplete="PF('deleteDialog').show()"
+											rendered="#{img.eventSecurityUser.securityUser.userProfile.userProfileId == dashBean.userProfile.userProfileId}"
+											actionListener="#{activityBean.setSelectedImageId(st.index, 'delete')}"
+											ajax="true" process="@this" update=":myactivityform:tagDlg">
+											<h:graphicImage value="/static/image/trash.png" width="16"
+												height="16" alt="Tag" />
+
+										</p:commandLink>
+									</div>
+									<div align="right" class="myactivitycount1">
+										<p:commandLink onclick="PF('wgtFlagDialog').show()"
+											style="text-decoration:none; color:inherit"
+											actionListener="#{activityBean.setSelectedImageId(st.index,'flag')}"
+											update="@this" ajax="true">
+											<h:graphicImage value="/static/image/flag_icon.png"
+												width="16" height="16" alt="Flag" />
+										</p:commandLink>
+									</div>
+									<!-- pop up !-->
+									<!-- popup form #1 -->
+									<a href="#x" class="overlayflag" id="login_form"></a>
+									<!-- pop up !-->
+								</div>
+							</div>
+						</div>
+
+						<!-- img !-->
+					</div>
+					<div class="myactivityimgsp">&#160;</div>
+
+					<h:outputText value="#{activityBean.rowEnd}"
+						rendered="#{st.index % 3 == 2 ||st.last}" escape="false" />
+
+				</ui:repeat>
+
+
+
+
+				<div style="width: 100%; height: 10px;">&#160;</div>
+			</div>
+		</div>
+		<!-- right notification !-->
+		<!-- comment Dialog start -->
+		<p:dialog id="postCommentDlg" width="300px" height="200px"
+			appendToBody="false" widgetVar="wgtCommentDialog" showEffect="fade"
+			hideEffect="explode" resizable="false" modal="true"
+			header="Add Comment" style="background-color:#FFFFFF">
+			<p:panel style="background-color: #FFFFFF">
+				<p:ajaxStatus>
+					<f:facet name="start">Loading...</f:facet>
+					<f:facet name="success">
+						<h:outputText value="" />
+					</f:facet>
+					<f:facet name="error">An error has occurred!</f:facet>
+				</p:ajaxStatus>
+				<h:inputTextarea class="cmttextarea"
+					style="margin: 2px 0px; width: 220px; height: 120px;border: 1px solid #dbdbdb;"
+					value="#{activityBean.commentText}" />
+				<br />
+				<br />
+				<div align="right" style="padding-right: 25px;">
+					<p:commandLink actionListener="#{activityBean.addComment()}"
+						class="cmtshare" value="Share"
+						oncomplete="PF('wgtCommentDialog').hide();"
+						update="postCommentDlg @(.commentStyle)" />
+				</div>
+			</p:panel>
+		</p:dialog>
+		<!--  comment Dialog end -->
+		<!-- tag Dialog start -->
+		<p:dialog id="tagDlg" width="300px" height="400px"
+			appendToBody="false" widgetVar="wgtTagDialog" showEffect="fade"
+			hideEffect="explode" resizable="false" modal="true"
+			header="Tag a friend" dynamic="true" style="background-color:#FFFFFF">
+			<p:ajaxStatus>
+				<f:facet name="start">Loading...</f:facet>
+				<f:facet name="success">
+					<h:outputText value="" />
+				</f:facet>
+				<f:facet name="error">An error has occurred!</f:facet>
+			</p:ajaxStatus>
+			<p:panel style="background-color: #FFFFFF">
+				<p:selectManyMenu id="userId" value="#{activityBean.taggedUserIds}"
+					var="user" showCheckbox="true"
+					converter="omnifaces.SelectItemsConverter">
+					<f:selectItems value="#{dashBean.currentEventUsers}" var="c"
+						itemLabel="#{c.securityUser.userProfile.firstName} #{c.securityUser.userProfile.lastName} "
+						itemValue="#{c}" />
+					<p:column>
+						<p:graphicImage
+							value="/profile?id=#{user.securityUser.userProfile.imageFileName}"
+							width="35" height="35"
+							rendered="#{!empty user.securityUser.userProfile.imageFileName}" />
+						<p:graphicImage value="/static/image/anon.jpg" width="35"
+							height="35"
+							rendered="#{empty user.securityUser.userProfile.imageFileName}" />
+					</p:column>
+					<p:column>
+						#{user.securityUser.userProfile.firstName} #{user.securityUser.userProfile.lastName}
+					</p:column>
+					<p:row>
+						<hr />
+					</p:row>
+				</p:selectManyMenu>
+				<br />
+				<br />
+				<div align="right" style="padding-right: 25px;">
+					<p:commandLink actionListener="#{activityBean.addTag()}"
+						class="cmtshare" value="Tag"
+						oncomplete="PF('wgtTagDialog').hide();"
+						update="tagDlg @(.tagStyle)" />
+				</div>
+			</p:panel>
+		</p:dialog>
+		<!--  tag Dialog end -->
+		<!-- flag Dialog start -->
+		<p:dialog id="flagDlg" width="300px" height="200px"
+			appendToBody="false" widgetVar="wgtFlagDialog" showEffect="fade"
+			hideEffect="explode" resizable="false" modal="true"
+			header="Flag inappropriate photo" style="background-color:#FFFFFF">
+			<p:ajaxStatus>
+				<f:facet name="start">Loading...</f:facet>
+				<f:facet name="success">
+					<h:outputText value="" />
+				</f:facet>
+				<f:facet name="error">An error has occurred!</f:facet>
+			</p:ajaxStatus>
+			<p:panel style="background-color: #FFFFFF">
+				<p:selectOneMenu id="reasonId" value="#{activityBean.flagReasonId}">
+					<f:selectItems value="#{referenceData.getRequestReasonList()}"
+						var="u" itemLabel="#{u.requestReasonDescription}"
+						itemValue="#{u.requestReasonId}" />
+				</p:selectOneMenu>
+				<h:inputTextarea class="cmttextarea"
+					style="margin: 2px 0px; width: 220px; height: 70px;"
+					value="#{activityBean.flagText}" />
+				<br />
+				<br />
+				<div align="right" style="padding-right: 25px;">
+					<p:commandLink actionListener="#{activityBean.flag()}"
+						class="cmtshare" value="Flag"
+						oncomplete="PF('wgtFlagDialog').hide();" update="@form" />
+				</div>
+			</p:panel>
+		</p:dialog>
+		<!--  flag Dialog end -->
+		<!--  ################################################# -->
+		<!-- image delete dialog start  -->
+		<p:dialog id="delete_dialog" width="300px" height="100px"
+			appendToBody="false" widgetVar="deleteDialog" showEffect="fade"
+			hideEffect="explode" resizable="false" modal="true"
+			header="Delete Picture" style="background-color:#FFFFFF">
+
+			<h:panelGrid id="delete" columns="2" cellpadding="4">
+
+				<f:facet name="header">
+              	 Are you sure you want to delete this Picture?
+             
+				</f:facet>
+				<p:commandLink
+					actionListener="#{activityBean.deleteTheCurrentImage()}"
+					class="cmtshare" value="Delete" update="@form"
+					oncomplete="PF('deleteDialog').hide()" />
+				<p:commandLink class="cmtshare" value="Cancel"
+					onclick="deleteDialog.hide()" />
+
+			</h:panelGrid>
+
+		</p:dialog>
+		<!-- image delete dialog end  -->
+	</h:form>
+</ui:composition>

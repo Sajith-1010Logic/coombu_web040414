@@ -1,0 +1,139 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div class="rightnotification">
+		<h:form prependId="false" id="albumform">
+			<p:messages id="messages" showDetail="true" autoUpdate="true"
+				closable="true" />
+			<div class="myactivecont">
+				<div style="width: 100%">
+					<p class="reportpageheader">ENTER ALBUM INFO</p>
+				</div>
+				<p:panel id="panel">
+					<h:panelGrid id="photogrid" columns="3" cellpadding="5"
+						cellspacing="100" align="left" width="100%"
+						style="border-spacing: 15px;">
+						<h:outputLabel for="name" value="Album Name:"
+							style="font-weight:bold" />
+						<p:inputText id="name"
+							value="#{photoBookBean.imageBucket.imageBucketName}"
+							required="true" requiredMessage="Album Name required"
+							label="Album Name">
+							<f:validateLength minimum="2" />
+							<p:ajax update="msgAlbumname" event="keyup" />
+						</p:inputText>
+
+						<p:message for="name" id="msgAlbumname" display="icon" />
+						<h:outputLabel for="description" value="Album Description:"
+							style="font-weight:bold" />
+						<p:inputTextarea id="description"
+							value="#{photoBookBean.imageBucket.imageBucketDescription}"
+							required="true" requiredMessage="Album Description required"
+							label="Album Description">
+							<f:validateLength minimum="2" />
+							<p:ajax update="msgAlbumdesc" event="keyup" />
+						</p:inputTextarea>
+						<p:message for="description" id="msgAlbumdesc" display="icon" />
+
+						<p:commandButton id="modifyButton" value="Modify"
+							actionListener="#{photoBookBean.updatePhotoBook}"
+							update="photogrid" />
+
+
+						<p:commandButton value="Publish" update="panel"
+							id="publishButton2"
+							actionListener="#{photoBookBean.publishModifiedPhotoBook}">
+							<p:confirm header="Confirmation"
+								message="Are you sure to publish album?" icon="ui-icon-alert" />
+						</p:commandButton>
+					</h:panelGrid>
+				</p:panel>
+
+				<div style="width: 100%; height: 15px;">&#160;</div>
+				<div style="width: 100%">
+					<p class="reportpageheader">
+						CHOOSE PHOTOS FOR YOUR ALBUM<SPAN style="float: right">TOTAL
+							PHOTOS ADDED:&#160;<h:outputText
+								value="#{photoBookBean.selectedImages.size()}" />
+						</SPAN>
+					</p>
+				</div>
+				<ui:repeat value="#{photoBookBean.imageList}" var="img"
+					varStatus="st">
+					<h:outputText value="#{photoBookBean.rowStart}"
+						rendered="#{st.index % 3 == 0 || st.first}" escape="false" />
+
+					<div class="myactivityimg" id="img#{st.index}"
+						style="margin-bottom: 40px;">
+						<!-- img !-->
+						<div id="capslide_img_cont#{st.index}" class="ic_container">
+
+							<h:graphicImage
+								value="/image?id=#{img.fileName}&amp;type=activity" width="210" />
+
+							<div class="overlay" style="display: none;"></div>
+							<div class="ic_caption">
+								<div style="padding: 10px 0px 30px 0px;">
+									<div class="myactivitycount">
+										<h:panelGroup id="choice">
+											<p:commandLink style="text-decoration:none; color:inherit"
+												update="choice" title="select picture to add in your album"
+												actionListener="#{photoBookBean.modifyImageBucket(img.imageId)}"
+												rendered="#{!photoBookBean.checkImageAlreadyInBucket(img.imageId)}">
+												<h:graphicImage value="/static/image/unchecked.png"
+													width="15" height="15" alt="select" />
+											</p:commandLink>
+											<p:commandLink style="text-decoration:none; color:inherit"
+												update="choice" title="Remove picture from  your album"
+												actionListener="#{photoBookBean.modifyImageBucket(img.imageId)}"
+												rendered="#{photoBookBean.checkImageAlreadyInBucket(img.imageId)}">
+												<h:graphicImage value="/static/image/checkedup.png"
+													width="15" height="15" alt="select" />
+											</p:commandLink>
+										</h:panelGroup>
+									</div>
+									<div class="myactivitycount"
+										style="margin-top: -5px; margin-left: -5px;">
+
+										<h:graphicImage value="/static/image/like_icon.png" width="24"
+											height="21" alt="Like" />
+										<h:outputText value="#{img.voteCount}" />
+
+
+
+									</div>
+									<div class="myactivitycount" style="margin-top: -2px;">
+
+										<h:graphicImage value="/static/image/tag_nrm.png" width="24"
+											height="21" alt="Tag" />
+										<h:outputText value="#{img.tagCount}" styleClass="tagCnt" />
+
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+
+						<!-- img !-->
+					</div>
+					<div class="myactivityimgsp">&#160;</div>
+
+					<h:outputText value="#{photoBookBean.rowEnd}"
+						rendered="#{st.index % 3 == 2 ||st.last}" escape="false" />
+				</ui:repeat>
+			</div>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode"
+				style="background-color:#FFFFFF">
+				<p:commandButton value="Yes" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+					update="albumform" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+	</div>
+</ui:composition>
